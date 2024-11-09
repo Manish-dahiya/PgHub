@@ -7,7 +7,7 @@
 
 /* Root color definitions */
 :root {
-  --dark: #141414;
+  --dark: #14141466;
   --lightdark: #191919;
   --purple: #703bf7;
   --background-color: white;
@@ -23,35 +23,26 @@
 
 /* Light theme */
 .lightTheme {
-  background-color: white;
+  background: rgb(112,59,247);
+  background: linear-gradient(220deg, rgba(112,59,247,1) 0%, rgba(235,231,231,1) 73%);
 }
+.pbutton{
+  background: rgb(112,59,247);
+background: linear-gradient(177deg, rgba(112,59,247,1) 0%, rgba(235,231,231,1) 85%);
+
+}
+.navbarlight{
+  background: rgb(112,59,247);
+background: linear-gradient(177deg, rgba(112,59,247,1) 0%, rgba(235,231,231,1) 85%);
+}
+
 .purple{
   background-color: #703bf7;
 }
 
-/* Apply variables in components
-body {
-  background-color: var(--background-color);
-  color: var(--text-color);
+.footer{
+  display: grid;
+  grid-template-columns: 6fr 2fr 2fr 2fr 2fr 2fr; 
+  
+
 }
-
-.navbar {
-  background-color: var(--background-color);
-  color: var(--text-color);
-} */
-
-
-
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
-
-/* body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}  */

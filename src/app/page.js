@@ -9,8 +9,18 @@ import propertyIcon from "../../public/propertyIcon.png"
 import PropertyCard from "@/components/PropertyCard";
 import demoProperty from "../../public/demoProperty.png"
 import { Swiper, SwiperSlide } from "swiper/react";
+// Import Swiper styles
 import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+
+import 'swiper/css/pagination';
+import { EffectCoverflow, Pagination } from 'swiper/modules';
+
 import stars from "../../public/stars.png"
+import ReviewCard from "@/components/ReviewCard";
+import backgroundPattern from "../../public/backgroundPattern.png"
+import Link from "next/link";
+import Footer from "@/components/Footer";
 const properties=[
   {
     id:1,
@@ -55,6 +65,32 @@ const properties=[
     price:'$8744'
   }
 ]
+const reviews=[
+  {
+    id:1,
+    name:"harivansh",
+    text:"Awesome app",
+    rating:2
+  },
+  {
+    id:2,
+    name:"harivansh",
+    text:"Awesome app",
+    rating:3
+  },
+  {
+    id:3,
+    name:"harivansh",
+    text:"Awesome app,just killed it bro ,what you made!!!! awsome oswe bor bro you have made a big change in society",
+    rating:5
+  },
+  {
+    id:4,
+    name:"harivansh",
+    text:"Awesome app",
+    rating:3.5
+  }
+]
 
 
 
@@ -80,51 +116,79 @@ export default function Home() {
 
   return (
     <div
-      className={`h-[100vh] w-[100vw] ${theme == "dark" ? "bg-black text-white" : "lightTheme"} overflow-x-hidden`}
+      className={`h-[100vh] w-[100vw] ${theme == "dark" ? "bg-[#060606] text-white" : "lightTheme"} overflow-x-hidden`}
     >
       <Navbar theme={theme} setTheme={setTheme} />
       {/* Top div */}
-      <div className="flex md:flex-row justify-between md:mt-20 mt-10 h-[100%] w-[100%]">
-        <div id="left" className="md:flex md:flex-col md:justify-center items-center p-14 w-[50%]">
-          <h1 className="text-4xl font-bold">Discover Your Dream </h1>
-          <h1 className="text-4xl font-bold mt-1">Pg with PgHub!</h1>
+      <div className="flex flex-col  items-center md:items-center md:flex-row md:justify-between md:mt-4 mt-10 h-[100%] w-[100%]">
+        <div id="left" className="order-2 md:order-1 md:flex md:flex-col  md:justify-center items-center md:p-14 w-[50%]">
+          <h1 className="md:text-4xl font-bold">Discover Your Dream </h1>
+          <h1 className="md:text-4xl font-bold mt-1">Pg with PgHub!</h1>
 
           <p className="my-7 text-gray-500 text-lg">
             Your journey to find the perfect pg begins here. Explore your listings to find the stay that matches your dream.
           </p>
-          <button className="purple px-3 py-3 rounded-lg hover:scale-105 transition-transform ">Browse properties</button>
-          {/* Cards */}
-          <div className="mt-20 flex flex-wrap gap-4">
-            <Card text={"Happy customers"} heading={"200+"} theme={theme} height={"100px"} width={"200px"}/>
-            <Card text={"Properties for Client"} heading={"10k"} theme={theme} height={"100px"} width={"200px"}/>
-            <Card text={"Years of Experience"} heading={"16+"} theme={theme} height={"100px"} width={"200px"}/>
-          </div>
+          <button className="pbutton px-3 py-3 rounded-lg hover:scale-105 transition-transform ">Browse properties</button>
+          <div className="mt-4 md:mt-20 w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 md:justify-items-center">
+    <Card text={"Happy customers"} heading={"200+"} img={null} theme={theme} height={"auto"} width={"100%"} />
+    <Card text={"Properties for Client"} heading={"10k"} img={null} theme={theme} height={"auto"} width={"100%"} />
+    <Card text={"Years of Experience"} heading={"16+"} img={null}  theme={theme} height={"auto"} width={"100%"} />
+</div>
+
         </div>
-        <div id="right" className="w-[50%]">
-          <Image src={home} alt="Image" className="md:h-[600px]" />
+        <div id="right" className=" md:order-2 order-1 w-full md:w-[50%]">
+          <Image src={home} alt="Image" className="h-[300px]   md:h-[600px]" />
         </div>
       </div>
       {/* big cards */}
-      <div className="w-full  border-b-8 border-[#141414] h-[30%] flex gap-11 justify-center flex-wrap border-t-8 p-3">
-      <Card text={"Happy customers"} heading={null} img={homeIcon} theme={theme} height={"300px"} width={"300px"}/>
-            <Card text={"Find your Dream Pg"} heading={null} img={homeIcon} theme={theme} height={"300px"} width={"300px"}/>
-            <Card text={"Effortlessly property Management"} heading={null} img={propertyIcon} theme={theme} height={"300px"} width={"300px"}/>
-            <Card text={"Regular Notifications"} heading={null} theme={theme} img={propertyIcon} height={"300px"} width={"300px"}/>
+      <div className={`w-full   border-b-4 ${theme=="dark"?"border-[#14141466]" : "border-[#141414]"}  md:h-auto py-20 flex gap-11 justify-center flex-wrap border-t-4 p-3`}>
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full max-w-screen-lg">
+        <Card text={"Happy customers"} heading={null} img={homeIcon} theme={theme} height={"auto"} width={"100%"} />
+        <Card text={"Find your Dream Pg"} heading={null} img={homeIcon} theme={theme} height={"auto"} width={"100%"} />
+        <Card text={"Effortlessly property Management"} heading={null} img={propertyIcon} theme={theme} height={"auto"} width={"100%"} />
+        <Card text={"Regular Notifications"} heading={null} img={propertyIcon} theme={theme} height={"auto"} width={"100%"} />
+    </div>
       </div>
 
       {/* featured properties */}
-      <div className="py-4 px-20 mt-20">
-        <Image  src={stars} alt="featured stars" className="opacity-50" />
-        <h1 className="font-bold text-4xl m-2">Featured Properties</h1>
+      <div className="py-4 px-5 md:px-20 mt-20">
+        <Image  src={stars} alt="featured stars" className={` ${theme=="dark" ? " md:opacity-50 " : "opacity-5"} ` } />
+        <h1 className="font-bold text-3xl my-2 md:m-2">Featured Properties</h1>
         <div className=" md:flex md:justify-between ">
           <p className="text-gray-500">Explore our handpicked selection of featured properties.Each listings offeres a glimpse info exceptional pg's available throug PgHub.Click view details for more Info</p>
-          <button className="bg-[#141414] border  py-1 px-2 rounded-lg border-slate-500">view All properties</button>
+          <button className={`${theme=="dark"?"darkTheme":"pbutton"} border  py-2 my-2 px-2 rounded-lg border-slate-500 hover:scale-105 transition-transform`}>view All properties</button>
         </div>
-        <div className="flex flex-wrap gap-6 ">
+        <div className="flex flex-wrap gap-6 my-10">
               <Swiper
-               spaceBetween={20}
+               effect={'coverflow'}
+               grabCursor={true}
+               centeredSlides={false}
                slidesPerView={3}
-               pagination={{ clickable: true }}
+               coverflowEffect={{
+                 rotate: 50,
+                 stretch: 0,
+                 depth: 100,
+                 modifier: 1,
+                 slideShadows: true,
+                 
+               }}
+               pagination={true}
+               modules={[EffectCoverflow, Pagination]}
+               className="mySwiper"
+               breakpoints={{
+                320: {
+                  slidesPerView: 1, // 1 slide per view on small screens
+                  centeredSlides: true,
+                },
+                640: {
+                  slidesPerView: 2, // 2 slides per view on small tablets
+                  centeredSlides: false,
+                },
+                1024: {
+                  slidesPerView: 3, // 3 slides per view on larger screens
+                  centeredSlides: false,
+                },
+              }}
 
               >
               {
@@ -137,6 +201,57 @@ export default function Home() {
               </Swiper>
           </div>
       </div>
+
+      {/* reviews */}
+      <div className=" py-4 px-20 mt-24 border-y-4 border-[#141414]">
+      <Image  src={stars} alt="featured stars" className={` ${theme=="dark" ? " md:opacity-50 " : "opacity-5"} ` }  />
+            
+            <div>
+              <h1 className="font-bold text-3xl m-2">Our our Clients say</h1>
+              <p className="text-gray-500">Read the happy stories of our valued clients.Discover why they choose PgHub for finding the perfect pg's</p>
+            </div>
+
+            <div className="my-20">
+              <Swiper
+                   spaceBetween={50}
+                   slidesPerView={3}
+                   breakpoints={{
+                    320: {
+                      slidesPerView: 1, // 1 slide per view on small screens
+                      centeredSlides: true,
+                    },
+                    640: {
+                      slidesPerView: 2, // 2 slides per view on small tablets
+                      centeredSlides: false,
+                    },
+                    1024: {
+                      slidesPerView: 3, // 3 slides per view on larger screens
+                      centeredSlides: false,
+                    },
+                  }}
+              >
+                {
+                  reviews.map((item,index)=>(
+                    <SwiperSlide key={index}>
+                      <ReviewCard item={item}/>
+                    </SwiperSlide>
+                  ))
+                }
+              </Swiper>
+            </div>
+      </div>
+               
+          <div className="px-2 md:px-32 border-b-4 md:py-10 relative  border-[#141414] " style={{backgroundImage:`url(${backgroundPattern})` , backgroundSize: 'cover', backgroundPosition: 'center' }}>
+          <Image src={backgroundPattern} alt="hii" className="opacity-20 absolute top-0 left-0 w-full h-full object-cover"></Image>
+                <div className="text-center" >
+                  
+                  <h1  className="md:text-3xl my-3">Start Your pg finding journey Today</h1>
+                  <p className="text-gray-500">Start your PG-finding journey today with PGHub! Discover a seamless and convenient way to search for your ideal paying guest accommodation. At PGHub, we understand the importance of finding a comfortable and affordable space that feels like home. Whether you’re a student, a professional, or anyone in need of a place to stay, our platform offers a wide range of options tailored to your preferences and budget. Say goodbye to the hassle of endless searches and let PGHub guide you to the perfect spot. Begin your journey with us today and find your next home with ease and confidence!</p>
+                  <div className="m-20"><Link href={"/properties"} className="rounded-lg px-3 py-3 pbutton ">Explore properties</Link></div>
+                </div>
+          </div>
+
+        <Footer theme={theme}/>
     </div>
   );
 }
