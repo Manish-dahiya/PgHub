@@ -2,20 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+
+
+/* Root color definitions */
+:root {
+  --dark: #141414;
+  --lightdark: #191919;
+  --purple: #703bf7;
+  --background-color: white;
+  --text-color: black;
 }
 
-@media (prefers-color-scheme: dark) {
+/* Dark theme */
+.darkTheme {
+ background-color: var(--dark);
+  color: white;
+ 
+}
+
+/* Light theme */
+.lightTheme {
+  background-color: white;
+}
+.purple{
+  background-color: #703bf7;
+}
+
+/* Apply variables in components
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.navbar {
+  background-color: var(--background-color);
+  color: var(--text-color);
+} */
+
+
+
+
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
-body {
+/* body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
-} */
+}  */
