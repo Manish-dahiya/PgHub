@@ -5,7 +5,7 @@ import React from 'react'
 
 function ReviewCard({item}) {
   return (
-    <div className='border border-gray-500   rounded-lg flex flex-col w-auto md:gap-5 p-2 ps-5  justify-center items-start'
+    <div className='border border-gray-500   rounded-lg flex flex-col w-[284px] md:w-auto md:gap-5 p-2 ps-5  justify-center items-start'
         
     >
         <div id='stars'>

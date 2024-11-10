@@ -20,7 +20,10 @@
   color: white;
  
 }
-
+.valuesDiv{
+  display: grid;
+  grid-template-rows: 1fr 3fr;
+}
 /* Light theme */
 .lightTheme {
   background: rgb(112,59,247);
@@ -34,6 +37,12 @@ background: linear-gradient(177deg, rgba(112,59,247,1) 0%, rgba(235,231,231,1) 8
 .navbarlight{
   background: rgb(112,59,247);
 background: linear-gradient(177deg, rgba(112,59,247,1) 0%, rgba(235,231,231,1) 85%);
+}
+
+.aboutReviewDiv{
+  display: grid;
+  grid-template-rows: 1fr 2fr ;
+  grid-template-columns: 1fr;
 }
 
 .purple{

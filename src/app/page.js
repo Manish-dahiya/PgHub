@@ -21,6 +21,8 @@ import ReviewCard from "@/components/ReviewCard";
 import backgroundPattern from "../../public/backgroundPattern.png"
 import Link from "next/link";
 import Footer from "@/components/Footer";
+import { useSelector } from "react-redux";
+
 const properties=[
   {
     id:1,
@@ -92,36 +94,35 @@ const reviews=[
   }
 ]
 
-
+// setTheme(datafromstore)
 
 export default function Home() {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState("dark"); // Default to "dark"
+  const datafromstore = useSelector((state) => state.getTheme.theme);
   const [mounted, setMounted] = useState(false); // Track if the component has mounted
 
   useEffect(() => {
     // Set mounted to true once the component is mounted
     setMounted(true);
-
     const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) {
-      setTheme(JSON.parse(savedTheme));
-    } else {
-      setTheme("dark"); // Or any default theme you'd like
+    // If there's a theme in the Redux store or localStorage, set it
+    if (datafromstore) {
+      setTheme(datafromstore);
+    } else if (savedTheme) {
+      // Fallback to saved theme in localStorage if no theme in Redux store
+      setTheme(savedTheme);
     }
-  }, []);
-
-  if (!mounted) {
-    return null; // Render nothing until mounted (avoid SSR mismatch)
-  }
+  }, [datafromstore]); 
 
   return (
     <div
       className={`h-[100vh] w-[100vw] ${theme == "dark" ? "bg-[#060606] text-white" : "lightTheme"} overflow-x-hidden`}
     >
-      <Navbar theme={theme} setTheme={setTheme} />
+      <Navbar theme={theme}/>
       {/* Top div */}
       <div className="flex flex-col  items-center md:items-center md:flex-row md:justify-between md:mt-4 mt-10 h-[100%] w-[100%]">
         <div id="left" className="order-2 md:order-1 md:flex md:flex-col  md:justify-center items-center md:p-14 w-[50%]">
+        
           <h1 className="md:text-4xl font-bold">Discover Your Dream </h1>
           <h1 className="md:text-4xl font-bold mt-1">Pg with PgHub!</h1>
 

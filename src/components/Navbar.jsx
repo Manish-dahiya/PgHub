@@ -5,28 +5,32 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faMoon } from '@fortawesome/free-solid-svg-icons';
 import { faSun } from '@fortawesome/free-regular-svg-icons';
-import { changeTheme } from '@/helper/helper';
+import { configTheme } from '@/helper/helper';
 import Sidebar from './Sidebar';
-
+import { useDispatch } from 'react-redux';
+import { changeTheme } from '@/redux/themeSlice';
 function Navbar({theme,setTheme}) {
-    // State to hold the current theme
-    // const [toggleTheme, setToggleTheme] = useState("dark");
+    const dispatch= useDispatch()
     const [isSidebar,setIsSidebar]=useState(false)
     useEffect(() => {
-        const savedTheme = JSON.parse(localStorage.getItem("theme"));
+        const savedTheme = localStorage.getItem("theme");
+
         if (savedTheme) {
-            setTheme(savedTheme);
-            // changeTheme(savedTheme); // Apply the saved theme
+            const parsedTheme = JSON.parse(savedTheme);  // Parse the saved theme
+            dispatch(changeTheme(parsedTheme));  // Dispatch action to update Redux state
+            configTheme(parsedTheme)
         } else {
-            setTheme("dark"); // Default to dark theme
-            changeTheme("dark"); // Apply default theme
+            const defaultTheme = "dark";  // Default theme if not found in localStorage
+            dispatch(changeTheme(defaultTheme));  // Dispatch default theme to Redux state
+            configTheme(defaultTheme)
         }
     }, [theme]); 
 
     // Handle theme change
     const handleChangeTheme = (theme) => {
-        setTheme(theme);
-        changeTheme(theme); // Apply the new theme
+        // setTheme(theme);
+        dispatch(changeTheme(theme))
+        configTheme(theme); // Apply the new theme
     };
 
     return (
@@ -38,7 +42,7 @@ function Navbar({theme,setTheme}) {
             <div className='hidden md:flex gap-10'>
                 <Link href={"/"}>Home</Link>
                 <Link href={"/properties"}>Properties</Link>
-                <Link href={"/aboutUs"}>About Us</Link>
+                <Link href={"/about"}>About Us</Link>
             </div>
             <div className='hidden md:flex items-center gap-3'>
                 <div className='text-sm'>
