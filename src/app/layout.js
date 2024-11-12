@@ -1,6 +1,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import Providers from "@/redux/Providers";
+import { Toaster } from 'react-hot-toast';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
         <Providers>
           {children}
         </Providers>
+        <Toaster position="top-center" reverseOrder={false} />
       </body>
     </html>
   );

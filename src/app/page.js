@@ -121,7 +121,7 @@ export default function Home() {
       <Navbar theme={theme}/>
       {/* Top div */}
       <div className="flex flex-col  items-center md:items-center md:flex-row md:justify-between md:mt-4 mt-10 h-[100%] w-[100%]">
-        <div id="left" className="order-2 md:order-1 md:flex md:flex-col  md:justify-center items-center md:p-14 w-[50%]">
+        <div id="left" className="order-2 md:order-1 md:flex md:flex-col  md:justify-center items-center md:p-14 md:w-[50%] w-[80%]">
         
           <h1 className="md:text-4xl font-bold">Discover Your Dream </h1>
           <h1 className="md:text-4xl font-bold mt-1">Pg with PgHub!</h1>
@@ -204,7 +204,7 @@ export default function Home() {
       </div>
 
       {/* reviews */}
-      <div className=" py-4 px-20 mt-24 border-y-4 border-[#141414]">
+      <div className=" py-4 px-10 md:px-20 mt-24 border-y-4 border-[#141414]">
       <Image  src={stars} alt="featured stars" className={` ${theme=="dark" ? " md:opacity-50 " : "opacity-5"} ` }  />
             
             <div>
