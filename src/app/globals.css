@@ -36,7 +36,7 @@ background: linear-gradient(177deg, rgba(112,59,247,1) 0%, rgba(235,231,231,1) 8
 }
 .navbarlight{
   background: rgb(112,59,247);
-background: linear-gradient(177deg, rgba(112,59,247,1) 0%, rgba(235,231,231,1) 85%);
+background: linear-gradient(177deg, rgba(112,59,247,1) 0%, rgb(127, 126, 126) 85%);
 }
 
 .aboutReviewDiv{
@@ -54,4 +54,29 @@ background: linear-gradient(177deg, rgba(112,59,247,1) 0%, rgba(235,231,231,1) 8
   grid-template-columns: 6fr 2fr 2fr 2fr 2fr 2fr; 
   
 
+}
+
+.checkbox-custom {
+  width: 20px; /* Set width */
+  height: 20px; /* Set height */
+  /* appearance: none; Hide the default checkbox style */
+  border: 2px solid #333; /* Custom border */
+  border-radius: 50%; /* Optional: rounded corners */
+  cursor: pointer;
+}
+
+.checkbox-custom:checked {
+  background-color: #007bff; /* Change background color when checked */
+  border-color: #007bff;
+}
+.map-styles {
+  height: 700px;
+  width: 50%; /* Default for larger screens */
+  z-index: 0;
+}
+
+@media (max-width: 768px) {
+  .map-styles {
+    width: 90%; /* Full width on mobile screens */
+  }
 }

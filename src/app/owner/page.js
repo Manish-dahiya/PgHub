@@ -8,6 +8,9 @@ import demoProperty from "../../../public/demoProperty.png"
 import PropertyCard from '@/components/PropertyCard'
 import LeafletMap from '@/components/LeafletMap'
 import AddPropertyForm from '@/components/AddPropertyForm'
+import Footer from '@/components/Footer'
+import backgroundPattern from "../../../public/backgroundPattern.png"
+import Link from 'next/link'
 
 const properties=[
     {
@@ -104,26 +107,28 @@ function page() {
       <Navbar theme={theme} />
 
         {/* owner profile section*/}
-        <div className=' md:h-[40vh] flex justify-center items-center bg-red-400 '>
+        <div className=' md:h-[40vh] flex z-2 justify-center items-center relative ' style={{backgroundImage:`url(${backgroundPattern})` , backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <Image src={backgroundPattern} alt="hii" className="opacity-20 z-1 absolute top-0 left-0 w-full h-full object-cover"></Image>
+
             <div className='text-center'>
                 <Image src={defaultUser} alt="default user" className='rounded-full ' height={150} />
                 <h1 className='md:text-2xl'>username</h1>
-                <div className='bg-slate-900 py-1 px-3 rounded-lg'>
-                    <button className=' hover:text-blue-400 '>Edit</button> &nbsp; &nbsp; 
-                    <button className='hover:text-blue-400 '>Logout</button>
+                <div className=' py-1 px-3 rounded-lg'>
+                    <button className=' hover:text-blue-400 cursor-pointer '>Edit</button> &nbsp; &nbsp; 
+                    <button className='hover:text-blue-400 cursor-pointer'>Logout</button>
                 </div>
 
             </div>
         </div>
 
         {/* navigation section between owner properties and client */}
-        <div className='h-10 border-b border-[#14141466] flex justify-center md:gap-10 p-2'>
-                <div className='flex flex-col w-20  items-center'>
+        <div className='h-10 border-b border-[#14141466] flex justify-center md:gap-10 mb-7'>
+                <div className='flex flex-col w-20  pt-3  items-center'>
                     <div className={` cursor-pointer `} onClick={()=>setActive(1)}>Properties</div>
                    {active==1 &&  <div className=' border-b-4 border-blue-400 w-28  rounded-lg'></div>}
 
                 </div>
-                <div className='flex flex-col w-20 items-center'>
+                <div className='flex flex-col w-20 pt-3  items-center'>
                 <div className={`cursor-pointer`} onClick={()=>setActive(2)}>Clients</div>
 
                 {active==2 && <div className=' border-b-4 border-blue-400 w-28  rounded-lg'></div>}
@@ -134,7 +139,7 @@ function page() {
         {
             active==1 ?
             <div className='md:my-10 flex justify-center items-center '>
-            <div className='w-[80vw] grid md:grid-cols-3 md:gap-1 grid-rows-auto  '>
+            <div className='w-[80vw] grid md:grid-cols-3 md:gap-1 gap-7 grid-rows-auto  '>
             {
                  properties?.map((item,index)=>(
                      <PropertyCard key={index} name={item.name} coverImg={item.image[0]} desc={item.desc} price={item.price}/>
@@ -143,7 +148,7 @@ function page() {
             </div>
          </div>
         :   //clients div
-             <div className='flex items-center justify-center md:px-20 md:mt-10'>
+             <div className='flex md:items-center px-5   md:justify-center  md:px-20 md:mt-10'>
                 <table className='w-full text-center '>
                     <thead>
                         <tr className={`h-10 w-full border-b-4 ${theme=="dark"? " border-[#141414]" :"border-[#999696]"}`}>
@@ -173,13 +178,26 @@ function page() {
             <div className={` py-4 px-20 mt-24 border-b-2  ${theme=="dark"? " border-[#141414]" :"border-[#999696]"}`}/>
 
         {/*add property form */}
-        <div className='md:mx-10 text-center'>
+        <div className='md:mx-10 text-center '>
             <h1 className='md:text-3xl font-bold  md:my-10'>Add new Property </h1>
-            <div className='flex flex-col md:flex-row md:gap-4'>
+            <div className='flex flex-col  md:flex-row md:gap-4 justify-center items-center md:items-start'>
             <LeafletMap onLocationSelected={handleLocationSelected} markers={markers} />
             <AddPropertyForm/>
             </div>
         </div>
+
+
+        <div className="px-2 md:px-32 border-b-4 md:py-10 relative  border-[#141414] " style={{backgroundImage:`url(${backgroundPattern})` , backgroundSize: 'cover', backgroundPosition: 'center' }}>
+          <Image src={backgroundPattern} alt="hii" className="opacity-20 absolute top-0 left-0 w-full h-full object-cover"></Image>
+                <div className="text-center" >
+                  
+                  <h1  className="md:text-3xl pt-7">Start Your pg finding journey Today</h1>
+                  <p className="text-gray-500">Start your PG-finding journey today with PGHub! Discover a seamless and convenient way to search for your ideal paying guest accommodation. At PGHub, we understand the importance of finding a comfortable and affordable space that feels like home. Whether you’re a student, a professional, or anyone in need of a place to stay, our platform offers a wide range of options tailored to your preferences and budget. Say goodbye to the hassle of endless searches and let PGHub guide you to the perfect spot. Begin your journey with us today and find your next home with ease and confidence!</p>
+                  <div className="m-20"><Link href={"/properties"} className="rounded-lg px-3 py-3 pbutton ">Explore properties</Link></div>
+                </div>
+          </div>
+
+        <Footer theme={theme}/>
 
     </div>
   )

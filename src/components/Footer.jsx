@@ -4,9 +4,9 @@ import React from 'react'
 
 function Footer({theme}) {
   return (
-    <>
+    <div className='pt-10'>
       <div className='text-center'>PgHub</div>
-    <div className=' md:my-1 px-10   grid  grid-cols-4 justify-center md:items-center'>
+    <div className=' md:my-1 px-10   grid  grid-cols-4 justify-center md:justify-end   md:items-center'>
       <div className=''>
             <h1 className='my-4 text-slate-500'>Home</h1>
             <p className='py-2'>Hero section</p>
@@ -30,7 +30,7 @@ function Footer({theme}) {
         <p className='py-2'> Pg Ratings</p>
         <p className='py-2'> Pg listings</p>
       </div>
-      <div className='text-slate-500 my-4'>first</div>
+      {/* <div className='text-slate-500 my-4'>first</div> */}
 
     </div>
     <div className={`h-10 ${theme=="dark"?"bg-[#14141466]":"bg-[#ebe7e7]"} flex justify-around py-7 `}>
@@ -47,7 +47,7 @@ function Footer({theme}) {
             <FontAwesomeIcon icon={faGithub}/>
         </div>
     </div>
-    </>
+    </div>
   )
 }
 

@@ -49,7 +49,8 @@ const LeafletMap = ({ onLocationSelected, markers }) => {
     <MapContainer
       center={[30.7848005, 76.923568]} // Set initial map center
       zoom={13}
-      style={{ height: '500px', width: '50%' }}
+      className='map-styles'
+      style={{ height: '700px'   }}
     >
       {/* Tile layer for the map */}
       <TileLayer

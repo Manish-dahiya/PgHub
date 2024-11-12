@@ -34,7 +34,7 @@ function Navbar({theme,setTheme}) {
     };
 
     return (
-        <div className={`h-10 md:h-20  w-full fixed top-0 z-11 ${theme=="dark"?"darkTheme":"navbarlight"} p-3 flex justify-between items-center`}>
+        <div className={`h-10 md:h-20  w-full fixed z-10 top-0 z-11 ${theme=="dark"?"darkTheme":"navbarlight"} p-3 flex justify-between items-center`}>
             <div>
                 <h1 className='font-bold'>PgHub</h1>
             </div>
