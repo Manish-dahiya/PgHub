@@ -1,7 +1,7 @@
 const { createSlice, current } = require("@reduxjs/toolkit")
 
 const initialState={
-    theme: JSON.parse(localStorage.getItem("theme"))||"dark"
+    theme: (typeof window !== 'undefined' && localStorage.getItem("theme")) || "dark",
 }
 
 
