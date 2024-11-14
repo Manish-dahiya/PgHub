@@ -68,7 +68,7 @@ function Navbar({theme,setTheme}) {
                             <Link href={`${localUser?(localUser.role=="owner") ? "/owner":"/user/profile":"/login"}`}>
                             <FontAwesomeIcon icon={faUser} className='h-4 cursor-pointer' /></Link>
                     </div>
-                
+                    
             </div>
             {/* hamburger */}
             <div className='md:hidden'>

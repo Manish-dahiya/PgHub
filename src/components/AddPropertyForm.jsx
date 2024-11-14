@@ -1,6 +1,9 @@
 "use client"
+import { decodeToken } from '@/helper/helper'
+import { addNewProperty } from '@/redux/propertySlice'
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import toast from 'react-hot-toast'
+import { useDispatch, useSelector } from 'react-redux'
 
 //{
     // name: String,
@@ -19,8 +22,9 @@ import { useSelector } from 'react-redux'
 //}
 
 
-function AddPropertyForm() {
+function AddPropertyForm({selectedLocation}) {
     const theme= useSelector((state)=>state.getTheme.theme)
+    const userInfo= useSelector((state)=>state.userData.user.data)
     const init={
         propertyName:"",
         propertyDesc:"",
@@ -29,22 +33,22 @@ function AddPropertyForm() {
         bedrooms:"",
         bathrooms:"",
         furnishedType:"",
-        kitchen:"",
-        hall:"",
-        balcony:"",
-        parking:"",
-        laundary:"",
+        kitchen:false,
+        hall:false,
+        balcony:false,
+        parking:false,
+        laundary:false,
         extraRequirements:"",
         // images:[],
-        location:["latituted","longitude"],
-        feedback:[],
+        location:{},
+        feedback:[],//<------
         owner:"", //<--------------------------------
         status:"listed",
-        previousUser:[]
+        previousUser:[]//<-------
     }
     const [formData,setFormData]=useState(init);
     const [propertyImages,setPropertyImages]=useState([]);
-
+    const dispatch=useDispatch()
     const handleChange=(e)=>{
         const {name,value}= e.target
         setFormData((prev)=>({
@@ -53,11 +57,58 @@ function AddPropertyForm() {
         }))
     }
     const handleImages=(e)=>{
-         // Use Array.from to convert FileList to an array and set it as state
+        //taking multiples files as input
+         // 1.Use Array.from to convert FileList to an array and set it as state
+         //2. you have to use multiple attribute in input tag
     setPropertyImages(Array.from(e.target.files));
     
     }
+    useEffect(()=>{
+        if(userInfo){
+          setFormData((prev)=>({
+            ...prev,
+            "owner":decodeToken(userInfo)._id
+          }))
+        }
+    },[userInfo])
     
+    const handlePropertyListing=()=>{
+        if( formData.propertyName=="" ||
+            formData.propertyDesc=="" ||
+            formData.propertyRent=="" ||
+            formData.propertyType=="" ||
+            formData.bedrooms=="" ||
+            formData.bathrooms=="" ||
+            formData.furnishedType=="" ||
+            formData.extraRequirements==""
+        ){
+            toast.error("fill the fields first");
+            return;
+        }
+
+        const data= new FormData()
+        data.append("propertyName",formData.propertyName);
+        data.append("propertyDesc",formData.propertyDesc);
+        data.append("propertyRent",formData.propertyRent);
+        data.append("propertyType",formData.propertyType)
+        data.append("bedrooms",formData.bedrooms)
+        data.append("bathrooms",formData.bathrooms)
+        data.append("furnishedType",formData.furnishedType)
+        data.append("kitchen",formData.kitchen)
+        data.append("hall",formData.hall)
+        data.append("balcony",formData.balcony)
+        data.append("parking",formData.parking)
+        data.append("laundary",formData.laundary)
+        data.append("extraRequirements",formData.extraRequirements)
+        data.append("status",formData.status)
+        data.append("owner",formData.owner)
+        //----location
+        data.append("location",selectedLocation)
+        //images
+        data.append("images",propertyImages);
+        dispatch(addNewProperty(data))
+    }
+
     useEffect(()=>{
         console.log(propertyImages)
     },[propertyImages])
@@ -126,7 +177,7 @@ function AddPropertyForm() {
         </div> 
 
         <br />
-        <button className={`${theme=="dark"?"text-white bg-blue-500" : "bg-blue-500 text-black"} md:mt-10 py-2 px-4 rounded-lg `}>List</button>
+        <button className={`${theme=="dark"?"text-white bg-blue-500" : "bg-blue-500 text-black"} md:mt-10 py-2 px-4 rounded-lg `} onClick={handlePropertyListing} >List</button>
 
     </div>
   )
