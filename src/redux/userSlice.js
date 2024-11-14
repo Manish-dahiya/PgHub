@@ -4,7 +4,7 @@ const { createAsyncThunk, createSlice,current } = require("@reduxjs/toolkit")
 
 const initialState={
     user:{
-        data:JSON.parse(localStorage.getItem("user")) || [],    
+        data:JSON.parse(localStorage.getItem("user")) || null,   
         status:"idle",
         error:null
     }

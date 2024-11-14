@@ -7,7 +7,7 @@ export const configTheme=(theme)=>{
 
 export const decodeToken = (token) => {
     try {
-      const arrayToken = token.split('.');
+      const arrayToken = token?.split('.');
       const tokenPayload = JSON.parse(atob(arrayToken[1]));
       return tokenPayload;
     } catch (error) {

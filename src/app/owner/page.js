@@ -105,9 +105,11 @@ function page() {
     };
 
     useEffect(()=>{
+       if(token){
         let data=decodeToken(token)
         setLocalUser(data)
         console.log(data)
+       }
     },[token])
    
     

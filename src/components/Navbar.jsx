@@ -4,14 +4,17 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faMoon } from '@fortawesome/free-solid-svg-icons';
-import { faSun } from '@fortawesome/free-regular-svg-icons';
-import { configTheme } from '@/helper/helper';
+import { faSun, faUser } from '@fortawesome/free-regular-svg-icons';
+import { configTheme, decodeToken } from '@/helper/helper';
 import Sidebar from './Sidebar';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { changeTheme } from '@/redux/themeSlice';
 function Navbar({theme,setTheme}) {
     const dispatch= useDispatch()
     const [isSidebar,setIsSidebar]=useState(false)
+    const token= useSelector((state)=>state.userData.user.data)
+    const [localUser,setLocalUser]=useState()
+    
     useEffect(() => {
         const savedTheme = localStorage.getItem("theme");
 
@@ -32,9 +35,15 @@ function Navbar({theme,setTheme}) {
         dispatch(changeTheme(theme))
         configTheme(theme); // Apply the new theme
     };
+    useEffect(()=>{
+        if(token){
+           setLocalUser(decodeToken(token))
+        }
+    },[])
+   
 
     return (
-        <div className={`h-10 md:h-20  w-full fixed z-10 top-0 z-11 ${theme=="dark"?"darkTheme":"navbarlight"} p-3 flex justify-between items-center`}>
+        <div className={`h-10 md:h-20  w-full fixed z-10 px-10 top-0 z-11 ${theme=="dark"?"darkTheme":"navbarlight"} p-3 flex justify-between items-center`}>
             <div>
                 <h1 className='font-bold'>PgHub</h1>
             </div>
@@ -43,8 +52,9 @@ function Navbar({theme,setTheme}) {
                 <Link href={"/"}>Home</Link>
                 <Link href={"/properties"}>Properties</Link>
                 <Link href={"/about"}>About Us</Link>
+                <button>Contact Us</button>
             </div>
-            <div className='hidden md:flex items-center gap-3'>
+            <div className='hidden md:flex  items-center gap-3'>
                 <div className='text-sm'>
                     {/* Toggle theme icon */}
                     {theme === "dark" ? (
@@ -53,7 +63,12 @@ function Navbar({theme,setTheme}) {
                         <FontAwesomeIcon icon={faMoon} className='h-4 cursor-pointer' onClick={() => handleChangeTheme("dark")} />
                     )}
                 </div>
-                <button>Contact Us</button>
+                    <div>
+                        
+                            <Link href={`${localUser?(localUser.role=="owner") ? "/owner":"/user/profile":"/login"}`}>
+                            <FontAwesomeIcon icon={faUser} className='h-4 cursor-pointer' /></Link>
+                    </div>
+                
             </div>
             {/* hamburger */}
             <div className='md:hidden'>
