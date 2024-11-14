@@ -4,11 +4,13 @@ import React, { useEffect, useState } from 'react'
 import aboutImage from "../../../public/aboutImage.png"
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '@/redux/userSlice';
+import { loginUser, registerUser } from '@/redux/userSlice';
+import { redirect } from 'next/navigation';
 function page() {
     const [isloggin,setIsLoggin]=useState(false);
     const errorMessage= useSelector((state)=>state.userData.user.error)
     const status= useSelector((state)=>state.userData.user.status)
+    
     const dispatch= useDispatch()
     const init={
         username:"",
@@ -26,37 +28,40 @@ function page() {
             [name]:value
         }))
     }
-    useEffect(()=>{
-        console.log(formData)
-    },[formData])
+    // useEffect(()=>{
+    //     console.log(formData)
+    // },[formData,errorMessage,status])
 
     const handleLoginUser=()=>{
+      if(formData.username=="" || formData.password=="" ||formData.role==""){
+        toast.error("fill the fields first");
+        return;
+      }
         dispatch(loginUser(formData))
-       
     }   
+    const handleRegisterUser=()=>{
+      if(formData.username=="" || formData.password=="" ||formData.role=="" || formData.email=="" || formData.contact==""){
+        toast.error("fill the fields first");
+        return;
+      }
+      dispatch(registerUser(formData))
+    }
     useEffect(() => {
-        // if (isLoggingIn) {
-            if (status === "pending") {
-                toast.promise(
-                    saveSettings(settings),
-                     {
-                       loading: 'Saving...',
-                       success: <b>Settings saved!</b>,
-                       error: <b>Could not save.</b>,
-                     }
-                   );
-            } else if (status === "success") {
-                toast.dismiss(); // Dismiss loading toast
-                toast.success("Successfully logged in!");
-                // setIsLoggingIn(false); // Reset loading state
-            } else if (status === "rejected" && errorMessage) {
-                toast.dismiss(); // Dismiss loading toast
-                toast.error(errorMessage);
-                // setIsLoggingIn(false); // Reset loading state
-            }
-        console.log(status)
-        console.log(errorMessage)
-    }, [status, errorMessage]); 
+      if (status === "pending") {
+          toast.loading("Processing...");
+      } else if (status === "success" ) {
+          toast.dismiss();
+          toast.success("login successfull");
+        redirect("/")
+      } else if (status === "failed" ) {
+        toast.dismiss();
+        toast.error(errorMessage);
+    }
+      else if (status === "rejected" && errorMessage) {
+          toast.dismiss();
+          toast.error(errorMessage);
+      }
+  }, [status, errorMessage]);
 
     
   return (
@@ -106,7 +111,7 @@ function page() {
             </div>
            {
             isloggin?<button className='bg-blue-400 py-2 px-4 rounded-lg' onClick={handleLoginUser}>Login</button>
-            :<button className='bg-blue-400 py-2 px-4 rounded-lg' >Sign up</button>
+            :<button className='bg-blue-400 py-2 px-4 rounded-lg' onClick={handleRegisterUser}>Sign up</button>
         }
         {
             isloggin?<span className='hover:text-blue-500 ' onClick={()=>setIsLoggin(!isloggin)}>Create A new Account ?</span>: <span className='hover:text-blue-500 ' onClick={()=>setIsLoggin(!isloggin)}>Already have an Account?</span>

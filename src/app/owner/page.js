@@ -1,7 +1,7 @@
 "use client"
 import Navbar from '@/components/Navbar'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import defaultUser from "../../../public/defaultUser.png"
 import demoProperty from "../../../public/demoProperty.png"
@@ -11,6 +11,7 @@ import AddPropertyForm from '@/components/AddPropertyForm'
 import Footer from '@/components/Footer'
 import backgroundPattern from "../../../public/backgroundPattern.png"
 import Link from 'next/link'
+import { decodeToken } from '@/helper/helper'
 
 const properties=[
     {
@@ -82,7 +83,8 @@ const properties=[
 function page() {
     const theme= useSelector((state)=>state.getTheme.theme)
     const [active,setActive]=useState(2) //default properties set
-
+    const token= useSelector((state)=>state.userData.user.data)
+    const [localUser,setLocalUser]=useState({username:null,email:null,contact:null,role:null})
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [markers, setMarkers] = useState([
       { latitude:30.7848005, longitude:76.923568}, // Example marker 1
@@ -102,6 +104,15 @@ function page() {
       // });
     };
 
+    useEffect(()=>{
+        let data=decodeToken(token)
+        setLocalUser(data)
+        console.log(data)
+    },[token])
+   
+    
+
+
   return (
     <div  className={`h-[100vh] w-[100vw] ${theme == "dark" ? "bg-[#060606] text-white" : "lightTheme"}   overflow-x-hidden`}>
       <Navbar theme={theme} />
@@ -112,7 +123,7 @@ function page() {
 
             <div className='text-center'>
                 <Image src={defaultUser} alt="default user" className='rounded-full ' height={150} />
-                <h1 className='md:text-2xl'>username</h1>
+                <h1 className='md:text-2xl'>{localUser.username?localUser.username:"user"}</h1>
                 <div className=' py-1 px-3 rounded-lg'>
                     <button className=' hover:text-blue-400 cursor-pointer '>Edit</button> &nbsp; &nbsp; 
                     <button className='hover:text-blue-400 cursor-pointer'>Logout</button>

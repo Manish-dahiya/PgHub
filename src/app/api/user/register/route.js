@@ -11,30 +11,31 @@ const joi= require("joi")
 
 export async function POST(req){
     await connectToDatabase()
-    const {username,email,password}=await req.json()
+    const {username,email,password,contact,role}=await req.json()
 
     //validations
     const userJoiSchema=joi.object({
         username:joi.string().min(3).max(25).alphanum().required(),
         email:joi.string().email().required(),
         password:joi.string().min(5).max(10).alphanum(),
+        contact:joi.string().min(10).max(10)
     })
 
-    const check=userJoiSchema.validate({username,email,password})
+    const check=userJoiSchema.validate({username,email,password,contact})
     if (check.error) {
         const message = check.error.details[0].message
         console.log(message);
-        return NextResponse.json({response:message},{status:200})
+        return NextResponse.json({response:message,success:false},{status:200})
     }
 
 
     const userName=await users.findOne({username:username})
     const userEmail=await users.findOne({email:email})
     if(userName){
-        return NextResponse.json({response:"username already exists"},{status:200})
+        return NextResponse.json({response:"username already exists", success:false},{status:200})
     }
     if(userEmail){
-        return NextResponse.json({response:"email already exists"},{status:200})
+        return NextResponse.json({response:"email already exists", success:false},{status:200})
     }
     //to store the password in encrypted format
 
@@ -45,16 +46,20 @@ export async function POST(req){
         username:username,
         email:email,
         password:hashedpasword,
+        contact:contact,
+        role:role
         // avatar:avatarFilename
     })
 
-    console.log(userResult)
+    console.log("created user",userResult)
     const data={
         _id:userResult._id,
-        name:userResult.username,
-        email:userResult.email
+        username:userResult.username,
+        email:userResult.email,
+        role:userResult.role,
+        contact:userResult.contact
     }
     const token=jwt.sign(data,privatekey)
     // res.cookie("token",token) //saving the username to the cookies
-    return NextResponse.json({response:token},{status:201});
+    return NextResponse.json({response:token, success:true},{status:201});
 }

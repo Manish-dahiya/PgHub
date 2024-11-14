@@ -11,23 +11,29 @@ const privatekey=process.env.JWT_SECRET// used to encode the cookie data
 
 export async function POST(req){
    
-    const {username,password}=await req.json()
+    const {username,password,role}=await req.json()
     await connectToDatabase();
-    console.log(username,password)
+    
         const user=await users.findOne({username:username})
+        // console.log(user)
         if(!user){
-            return NextResponse.json({response:"user does not exist"},{status:200})
+            return NextResponse.json({response:"user does not exist", success:false},{status:200})
         }
         //comparing the password 
         const checkpassword=await bcrypt.compare(password,user.password)
         if(!checkpassword){
-            return NextResponse.json({response:"password is incorrect"},{status:200})
+            return NextResponse.json({response:"password is incorrect" ,success:false},{status:200})
+        }
+        if(role!= user.role){
+            return NextResponse.json({response:"Role is incorrect" ,success:false},{status:200})
         }
         const data={
             _id:user._id,
-            name:user.username,
-            email:user.email
+            username:user.username,
+            email:user.email,
+            role:user.role,
+            contact:user.contact,
         }
         const token=jwt.sign(data,privatekey)
-       return NextResponse.json({response:token},{status:201});
+       return NextResponse.json({response:token,success:true},{status:201});
 }

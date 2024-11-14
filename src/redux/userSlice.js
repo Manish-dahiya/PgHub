@@ -1,8 +1,10 @@
-const { createAsyncThunk, createSlice } = require("@reduxjs/toolkit")
+import { decodeToken } from "@/helper/helper";
+
+const { createAsyncThunk, createSlice,current } = require("@reduxjs/toolkit")
 
 const initialState={
     user:{
-        data:{},
+        data:JSON.parse(localStorage.getItem("user")) || [],    
         status:"idle",
         error:null
     }
@@ -10,31 +12,32 @@ const initialState={
 
 
 
-export const loginUser= createAsyncThunk(
+export const loginUser = createAsyncThunk(
     "userSlice/loginUser",
-    async(formData)=>{
-        console.log("req has been sent")
-        const response= await fetch("/api/user/login",{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
+    async (formData, { rejectWithValue }) => {
+        const res = await fetch("/api/user/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
             },
-            body:JSON.stringify(formData)
+            body: JSON.stringify(formData),
         });
-        return response.json();
+        const data = await res.json();
+        return data;
     }
-)
+);
+
 export const registerUser= createAsyncThunk(
     "userSlice/registerUser",
     async(formData)=>{
-        const response= await fetch("/api/user/register",{
+        const res= await fetch("/api/user/register",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
             },
             body:JSON.stringify(formData)
         })
-        return response.json();
+        return res.json();
     }
 )
 
@@ -47,25 +50,43 @@ const userSlice= createSlice({
         builder
         .addCase(loginUser.pending,(state,action)=>{
             state.user.status="pending"
-            state.user.error=action.payload.response
+            
         })
         .addCase(loginUser.fulfilled,(state,action)=>{
-            state.user.status="success"
-            state.user.error=null
-            state.user.data=action.payload.response
+            if(action.payload.success==false){
+                state.user.error=action.payload.response //message from api
+                state.user.status="failed"
+                
+            }
+            else{
+                state.user.status="success"
+                state.user.error=null
+                let token= JSON.stringify(action.payload.response)
+                localStorage.setItem("user",token)
+            }
         })
-        .addCase(loginUser.rejected,(state,action)=>{
-            state.user.status="rejected"
-            // state.error=action.payload.response || "An error occurred during login.";
+        .addCase(loginUser.rejected, (state, action) => {
+            state.user.status = "rejected";
+            console.log("got again rejected")
+            state.user.error = action.error.message || "An error occurred during login.";
         })
         .addCase(registerUser.pending,(state,action)=>{
             state.user.status="pending"
-            state.user.error=action.payload.response
+           
         })
         .addCase(registerUser.fulfilled,(state,action)=>{
-            state.user.status="success"
-            state.user.data= action.payload.response
-            state.user.error=null
+            if(action.payload.success==false){
+                state.user.error=action.payload.response //message from api
+                state.user.status="failed"
+               
+            }
+            else{
+                state.user.status="success"
+                state.user.error=null
+                let token= JSON.stringify(action.payload.response)
+               
+                localStorage.setItem("user",token)
+            }
         })
         .addCase(registerUser.rejected,(state,action)=>{
             state.user.status="rejected"
