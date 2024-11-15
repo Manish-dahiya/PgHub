@@ -4,7 +4,7 @@ const { createAsyncThunk, createSlice,current } = require("@reduxjs/toolkit")
 
 const initialState={
     user:{
-        data:JSON.parse(localStorage.getItem("user")) || null,   
+        data:JSON.parse(localStorage.getItem("user"))? decodeToken(JSON.parse(localStorage.getItem("user"))):null,   
         status:"idle",
         error:null
     }
@@ -84,8 +84,8 @@ const userSlice= createSlice({
                 state.user.status="success"
                 state.user.error=null
                 let token= JSON.stringify(action.payload.response)
-               
                 localStorage.setItem("user",token)
+                // state.user.data=decodeToken(JSON.parse(localStorage.getItem("user")))
             }
         })
         .addCase(registerUser.rejected,(state,action)=>{

@@ -2,7 +2,7 @@
 import Navbar from '@/components/Navbar'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import defaultUser from "../../../public/defaultUser.png"
 import demoProperty from "../../../public/demoProperty.png"
 import PropertyCard from '@/components/PropertyCard'
@@ -12,6 +12,7 @@ import Footer from '@/components/Footer'
 import backgroundPattern from "../../../public/backgroundPattern.png"
 import Link from 'next/link'
 import { decodeToken } from '@/helper/helper'
+import { getOwnersProperties } from '@/redux/propertySlice'
 
 const properties=[
     {
@@ -82,10 +83,12 @@ const properties=[
 
 function page() {
     const theme= useSelector((state)=>state.getTheme.theme)
-    const [active,setActive]=useState(2) //default properties set
-    const token= useSelector((state)=>state.userData.user.data)
+    const [active,setActive]=useState(1) //default properties set
+    const userFromStore= useSelector((state)=>state.userData.user.data)
     const [localUser,setLocalUser]=useState({username:null,email:null,contact:null,role:null})
     const [selectedLocation, setSelectedLocation] = useState(null);
+    const ownerProp= useSelector((state)=>state.propertyData.ownerProperties)
+    const dispatch= useDispatch()
     const [markers, setMarkers] = useState([
       { latitude:30.7848005, longitude:76.923568}, // Example marker 1
       { latitude: 51.515, longitude: -0.1 },  // Example marker 2
@@ -105,12 +108,22 @@ function page() {
     };
 
     useEffect(()=>{
-       if(token){
-        let data=decodeToken(token)
-        setLocalUser(data)
-        console.log(data)
+       if(userFromStore){
+        
+        setLocalUser(userFromStore)
+       
+        console.log(userFromStore)
        }
-    },[token])
+    },[userFromStore])
+
+    useEffect(()=>{
+      
+      // console.log("onwer id from useeffect",userFromStore._id)
+        dispatch(getOwnersProperties(userFromStore._id))
+    },[])
+    useEffect(()=>{
+      console.log(ownerProp?.data)
+    },[ownerProp])
    
     
 
@@ -154,8 +167,9 @@ function page() {
             <div className='md:my-10 flex justify-center items-center '>
             <div className='w-[80vw] grid md:grid-cols-3 md:gap-1 gap-7 grid-rows-auto  '>
             {
-                 properties?.map((item,index)=>(
-                     <PropertyCard key={index} name={item.name} coverImg={item.image[0]} desc={item.desc} price={item.price}/>
+                 ownerProp?.data?.map((item,index)=>(
+
+                     <PropertyCard key={index} name={item.propertyName} coverImg={`data:${item.images[0].contentType};base64,${Buffer.from(item.images[0].data.data).toString("base64")}`} desc={item.propertyDesc} type={item.propertyType} bedrooms={item.bedrooms} furnishedType={item.furnishedType} bathrooms={item.bathrooms} price={item.propertyRent}/>
                  ))
              }
             </div>

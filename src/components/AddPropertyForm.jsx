@@ -63,15 +63,14 @@ function AddPropertyForm({selectedLocation}) {
          // 1.Use Array.from to convert FileList to an array and set it as state
          //2. you have to use multiple attribute in input tag
     setPropertyImages(Array.from(e.target.files));
-    // console.log(e.target.files[0])
     }
     useEffect(()=>{
-        if(userInfo){
-          setFormData((prev)=>({
-            ...prev,
-            "owner":decodeToken(userInfo)._id
-          }))
-        }
+            if(userInfo){
+              setFormData((prev)=>({
+                ...prev,
+                "owner":userInfo._id
+              }))
+            }
     },[userInfo])
 
     useEffect(()=>{

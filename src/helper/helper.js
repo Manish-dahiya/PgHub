@@ -7,6 +7,9 @@ export const configTheme=(theme)=>{
 
 export const decodeToken = (token) => {
     try {
+      if (!token || typeof token !== 'string' || token.split('.').length !== 3) {
+        throw new Error("Invalid token format");
+      }
       const arrayToken = token?.split('.');
       const tokenPayload = JSON.parse(atob(arrayToken[1]));
       return tokenPayload;

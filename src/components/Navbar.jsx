@@ -12,7 +12,7 @@ import { changeTheme } from '@/redux/themeSlice';
 function Navbar({theme,setTheme}) {
     const dispatch= useDispatch()
     const [isSidebar,setIsSidebar]=useState(false)
-    const token= useSelector((state)=>state.userData.user.data)
+    const userFromStore= useSelector((state)=>state.userData.user.data)
     const [localUser,setLocalUser]=useState()
     
     useEffect(() => {
@@ -36,9 +36,7 @@ function Navbar({theme,setTheme}) {
         configTheme(theme); // Apply the new theme
     };
     useEffect(()=>{
-        if(token){
-           setLocalUser(decodeToken(token))
-        }
+       setLocalUser(userFromStore)
     },[])
    
 
