@@ -1,6 +1,9 @@
 import connectToDatabase from "@/lib/dbConnect";
 import properties from "@/models/property.model";
+import { NextResponse } from "next/server";
 
+
+//add to the notes (how to save multiple images) ??
 
 export async function POST(req){
     await connectToDatabase()
@@ -18,39 +21,60 @@ const balcony = body.get('balcony') === 'true';
 const parking = body.get('parking') === 'true';
 const laundary = body.get('laundary') === 'true';
 const extraRequirements = body.get('extraRequirements');
-const location = body.get('location'); // Parse if JSON object
+const latitude = body.get('latitude'); // Parse if JSON object
+const longitude = body.get('longitude'); // Parse if JSON object
 const feedback =body.get('feedback'); // Parse if JSON array
 const owner = body.get('owner');
 const status = body.get('status');
+const images= body.getAll("images")
 
-// For images, if they're files uploaded in the form:
-const images = body.getAll('images'); // retrieves files as an array of Blob objects
 
+//map function was returning an array of promises,To handle all those promises ,you have used
+//Promise.all( [..arr of promises..])  :-->
+//THIS MAIN PROMISE WILL GET RESOLVED IF ALL PROMISES IN THE ARRAY ARE RESOLVED
+//OR REJECT IF ANY PROMISE IN THE ARRAY REJECTS
+
+//  By await on Promise.all, we pause execution until all the promises have completed.
+
+const imagesData= await Promise.all(
+    images.map(async (file) => {
+      const arrayBuffer = await file.arrayBuffer(); // from File API
+      const buffer = Buffer.from(arrayBuffer); // from Node.js
+  
+      return {
+        name: file.name,
+        data: buffer,
+        contentType: file.type,
+      };
+    })
+  );
     try {
         const createdProperty= await properties.create({
-        propertyName,
-        propertyDesc,
-        propertyRent,
-        propertyType,
-        bedrooms,
-        bathrooms,
-        furnishedType,
-        kitchen,
-        hall,
-        balcony,
-        parking,
-        laundary,
-        extraRequirements,
-        // images:[],
-        location,
-        feedback,//<------
-        owner, //<--------------------------------
-        status,
+        propertyName:propertyName,
+        propertyDesc:propertyDesc,
+        propertyRent:propertyRent,
+        propertyType:propertyType,
+        bedrooms:bedrooms,
+        bathrooms:bathrooms,
+        furnishedType:furnishedType,
+        kitchen:kitchen,
+        hall:hall,
+        balcony:balcony,
+        parking:parking,
+        laundary:laundary,
+        extraRequirements:extraRequirements,
+        images:imagesData, //<---------------------------
+        location:{latitude:latitude,longitude:longitude},
+        feedback:null,//<------
+        owner:owner, //<--------------------------------
+        status:status,
         })
 
-        console.log("createdProperty:",createdProperty)
+    console.log("property created:",createdProperty.propertyName)
+     return NextResponse.json({response:createdProperty,success:true});
 
     } catch (error) {
         console.log(error)
+        return NextResponse.json({response:error,success:false});
     }
 }

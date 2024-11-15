@@ -25,6 +25,8 @@ import { useDispatch, useSelector } from 'react-redux'
 function AddPropertyForm({selectedLocation}) {
     const theme= useSelector((state)=>state.getTheme.theme)
     const userInfo= useSelector((state)=>state.userData.user.data)
+    const status=useSelector((state)=>state.propertyData.propertyInfo.status)
+    const errorMessage=useSelector((state)=>state.propertyData.propertyInfo.error)
     const init={
         propertyName:"",
         propertyDesc:"",
@@ -47,7 +49,7 @@ function AddPropertyForm({selectedLocation}) {
         previousUser:[]//<-------
     }
     const [formData,setFormData]=useState(init);
-    const [propertyImages,setPropertyImages]=useState([]);
+    const [propertyImages,setPropertyImages]=useState(null);
     const dispatch=useDispatch()
     const handleChange=(e)=>{
         const {name,value}= e.target
@@ -61,7 +63,7 @@ function AddPropertyForm({selectedLocation}) {
          // 1.Use Array.from to convert FileList to an array and set it as state
          //2. you have to use multiple attribute in input tag
     setPropertyImages(Array.from(e.target.files));
-    
+    // console.log(e.target.files[0])
     }
     useEffect(()=>{
         if(userInfo){
@@ -71,6 +73,24 @@ function AddPropertyForm({selectedLocation}) {
           }))
         }
     },[userInfo])
+
+    useEffect(()=>{
+        if (status === "pending") {
+            toast.loading("listing...");
+        } else if (status === "success" ) {
+            toast.dismiss();
+            toast.success("Property listed successfully");
+          
+        } else if (status === "failed" ) {
+          toast.dismiss();
+          toast.error(errorMessage);
+      }
+        else if (status === "rejected" && errorMessage) {
+            toast.dismiss();
+            toast.error(errorMessage);
+        }
+    },[errorMessage,status])
+
     
     const handlePropertyListing=()=>{
         if( formData.propertyName=="" ||
@@ -79,10 +99,18 @@ function AddPropertyForm({selectedLocation}) {
             formData.propertyType=="" ||
             formData.bedrooms=="" ||
             formData.bathrooms=="" ||
-            formData.furnishedType=="" ||
-            formData.extraRequirements==""
-        ){
+            formData.furnishedType=="" 
+        )
+        {
             toast.error("fill the fields first");
+            return;
+        }
+        else if( selectedLocation==null){
+            toast.error("Please select property location");
+            return;
+        }
+        else if(propertyImages==null){
+            toast.error("Please select some property images");
             return;
         }
 
@@ -103,9 +131,14 @@ function AddPropertyForm({selectedLocation}) {
         data.append("status",formData.status)
         data.append("owner",formData.owner)
         //----location
-        data.append("location",selectedLocation)
+        data.append("latitude",selectedLocation.latitude)
+        data.append("longitude",selectedLocation.longitude)
+       
         //images
-        data.append("images",propertyImages);
+        propertyImages.forEach((file) => {
+            data.append("images", file); // 'images' key must match the key used in backend
+          });
+        
         dispatch(addNewProperty(data))
     }
 

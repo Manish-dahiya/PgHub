@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const propertySchema = new mongoose.Schema({
     propertyName: {
         type: String,
-        required: true 
     },
     propertyDesc: {
         type: String
@@ -46,7 +45,6 @@ const propertySchema = new mongoose.Schema({
            {
             data:{
                 type:Buffer,   //<<<data type is buffer
-                required:true
             },
             contentType:{ //will include the file type
                 type:String
