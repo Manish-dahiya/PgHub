@@ -16,6 +16,10 @@ import { Pagination } from 'swiper/modules';
 import { getPropertiesByPagination, getTotalPropertiesCount } from '@/redux/propertySlice'
 import PropertyCard from '@/components/PropertyCard'
 import SkeletonLoader from '@/components/SkeletonLoader'
+import Footer from '@/components/Footer'
+import Link from 'next/link'
+import backgroundPattern from "../../../public/backgroundPattern.png"
+import Image from 'next/image'
 function page() {
     const theme = useSelector((state) => state.getTheme.theme)
     const [selectedLocation, setSelectedLocation] = useState(null);
@@ -28,10 +32,11 @@ function page() {
     const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
 
-    const [markers, setMarkers] = useState([
-        { latitude: 30.7848005, longitude: 76.923568 }, // Example marker 1
-        { latitude: 51.515, longitude: -0.1 },  // Example marker 2
-    ]);
+    const [markers, setMarkers] = useState(()=>{
+        return currentPageProperties?.map((item,index)=>(
+            { latitude:item.location.latittue , longitude:item.location.longitude}
+        )) || [  { latitude: 30.7848005, longitude: 76.923568 }, { latitude: 51.515, longitude: -0.1 }]
+    })
 
     // Handle the location selection and simulate storing it in the state
     const handleLocationSelected = (location) => {
@@ -150,7 +155,7 @@ function page() {
                                                 {
                                                     currentPageProperties?.map((item, index) => (
                                                         <div key={index} >
-                                                            <PropertyCard name={item.propertyName} coverImg={`data:${item.images[0].contentType};base64,${Buffer.from(item.images[0].data.data).toString("base64")}`} desc={item.propertyDesc} type={item.propertyType} bedrooms={item.bedrooms} furnishedType={item.furnishedType} bathrooms={item.bathrooms} price={item.propertyRent} />
+                                                            <PropertyCard name={item.propertyName} theme={theme} coverImg={`data:${item.images[0].contentType};base64,${Buffer.from(item.images[0].data.data).toString("base64")}`} desc={item.propertyDesc} type={item.propertyType} bedrooms={item.bedrooms} furnishedType={item.furnishedType} bathrooms={item.bathrooms} price={item.propertyRent} />
                                                         </div>
                                                     ))}
                                             </div>
@@ -162,6 +167,17 @@ function page() {
                 </div>
 
             </div>
+
+            <div className="px-2 md:px-32 border-b-4 my-3 md:py-10 relative  border-[#141414] " style={{backgroundImage:`url(${backgroundPattern})` , backgroundSize: 'cover', backgroundPosition: 'center' }}>
+          <Image src={backgroundPattern} alt="hii" className="opacity-20 absolute top-0 left-0 w-full h-full object-cover"></Image>
+                <div className="text-center" >
+                  
+                  <h1  className="md:text-3xl my-3">Start Your pg finding journey Today</h1>
+                  <p className="text-gray-500">Start your PG-finding journey today with PGHub! Discover a seamless and convenient way to search for your ideal paying guest accommodation. At PGHub, we understand the importance of finding a comfortable and affordable space that feels like home. Whether you’re a student, a professional, or anyone in need of a place to stay, our platform offers a wide range of options tailored to your preferences and budget. Say goodbye to the hassle of endless searches and let PGHub guide you to the perfect spot. Begin your journey with us today and find your next home with ease and confidence!</p>
+                  <div className="m-20"><Link href={"/properties"} className="rounded-lg px-3 py-3 pbutton ">Explore properties</Link></div>
+                </div>
+          </div>
+            <Footer />
 
         </div>
     )
