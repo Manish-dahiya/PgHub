@@ -11,6 +11,11 @@ const initialState={
         status:"idle",
         data:null,
         error:null
+    },
+    totalPropertyInfo:{
+        status:"idle",
+        data:null,
+        error:null 
     }
 }
 
@@ -32,6 +37,23 @@ export const getOwnersProperties=createAsyncThunk(
         return res.json();
     }
 )
+export const getPropertiesByPagination=createAsyncThunk(
+    "propertySlice/getPropertiesByPagination",
+    async(pgNo)=>{
+        const res= await fetch(`/api/properties/${pgNo}`,{method:"GET"})
+        return res.json();
+    }
+)
+
+export const getTotalPropertiesCount=createAsyncThunk(
+    "propertySlice/getTotalPropertiesCount",
+    async()=>{
+        const res= await fetch(`/api/properties`)
+        return res.json();
+    }
+)
+
+
 
 const propertySlice= createSlice({
     initialState,
@@ -69,6 +91,29 @@ const propertySlice= createSlice({
                 console.log("owner properties from true",action.payload.response)
                 state.ownerProperties.data=action.payload.response
             }
+        })
+        .addCase(getPropertiesByPagination.pending,(state,action)=>{
+              state.propertyInfo.status="pending"
+        })
+        .addCase(getPropertiesByPagination.fulfilled,(state,action)=>{
+            if(action.payload.success==false){
+                state.propertyInfo.status="failed"
+                console.log(action.payload.response)
+
+                state.propertyInfo.error= action.payload.response ; //error message
+            }
+            else{
+                state.propertyInfo.status="success"
+                state.propertyInfo.error=null,
+                console.log(action.payload.response)
+                state.propertyInfo.data=action.payload.response
+            }
+        })
+        .addCase(getTotalPropertiesCount.pending,(state)=>{
+            state.totalPropertyInfo.status="pending"
+        })
+        .addCase(getTotalPropertiesCount.fulfilled,(state,action)=>{
+            state.totalPropertyInfo.data= action.payload.response
         })
     }
 })

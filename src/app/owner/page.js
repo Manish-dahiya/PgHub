@@ -208,7 +208,10 @@ function page() {
         <div className='md:mx-10 text-center '>
             <h1 className='md:text-3xl font-bold  md:my-10'>Add new Property </h1>
             <div className='flex flex-col  md:flex-row md:gap-4 justify-center items-center md:items-start'>
-            <LeafletMap onLocationSelected={handleLocationSelected} markers={markers} />
+           <div className='md:w-[50%] w-[100%]'>
+            
+           <LeafletMap onLocationSelected={handleLocationSelected} markers={markers} />
+           </div>
             <AddPropertyForm selectedLocation={selectedLocation} />
             </div>
         </div>
