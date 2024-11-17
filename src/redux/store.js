@@ -7,7 +7,11 @@ export const store = configureStore({
         getTheme:themeReducer,
         userData:userReducer,
         propertyData:propertyReducer
-    }
+    },
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+          serializableCheck: false, // Disables the middleware
+        }),
 })
 
 

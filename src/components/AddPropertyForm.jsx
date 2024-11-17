@@ -165,9 +165,9 @@ function AddPropertyForm({selectedLocation}) {
         </select>
         <select name="furnishedType" id=""  value={formData.furnishedType} onChange={handleChange}    className={`${theme=="dark"?"text-white bg-[#14141466]" : "bg-transparent text-black"}  md:h-16 h-10 border border-gray-300 dark:border-gray-700 rounded-lg`}>
             <option value="" hidden>furnished Type </option>
-            <option value="1">full furnised</option> 
-            <option value="2">half furnished</option> 
-            <option value="3">unfurnished</option> 
+            <option value="fullFurnished">full furnised</option> 
+            <option value="halfFurnished">half furnished</option> 
+            <option value="unFurnished">unfurnished</option> 
         </select>
         <select name="bathrooms" id="" value={formData.bathrooms} onChange={handleChange}   className={`${theme=="dark"?"text-white bg-[#14141466]" : "bg-transparent text-black"}  md:h-16 h-10 border border-gray-300 dark:border-gray-700 rounded-lg`}>
             <option value="" hidden>Number of Bathrooms </option>

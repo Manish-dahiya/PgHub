@@ -21,6 +21,15 @@ import Link from 'next/link'
 import backgroundPattern from "../../../public/backgroundPattern.png"
 import Image from 'next/image'
 function page() {
+    const init={
+        propertyName:"",
+        furnishedType:"",
+        bedrooms:"",
+        propertyRent:"",
+        propertyType:""
+
+    }
+    const [searchFields,setSearchFields]=useState(init)
     const theme = useSelector((state) => state.getTheme.theme)
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [currentPage, setCurrentPage] = useState(1); // State to track current page
@@ -84,6 +93,13 @@ function page() {
         dispatch(getTotalPropertiesCount())
     }, [])
 
+    const handleSearchFieldsChange=(e)=>{
+        const {name,value}=e.target
+        setSearchFields((prev)=>({
+            [name]:value
+        })) 
+    }
+
 
 
     return (
@@ -97,8 +113,36 @@ function page() {
             </div>
             {/* search bar */}
             <div className='flex md:gap-4 md:mx-20 m-7'>
-                <input type="text" placeholder='search' className='border  bg-transparent w-[100%] border-slate-500 rounded-lg h-10 md:h-16 p-1 md:p-3 md:text-xl' />
+                <input type="text" placeholder='search'  name='propertyName' value={searchFields.propertyName} onChange={handleSearchFieldsChange}  className='border  bg-transparent w-[100%] border-slate-500 rounded-lg h-10 md:h-16 p-1 md:p-3 md:text-xl' />
                 <button className='border rounded-lg border-[#787a7e] px-4 py-1'>search</button>
+            </div>
+            
+            {/* categories for filtering */}
+            <div className='flex flex-wrap w-[100%] justify-center items-center md:gap-10 gap-2'>
+                <select name="propertyType" value={searchFields.propertyType} onChange={handleSearchFieldsChange} id="" className={`${theme == "dark" ? "text-white bg-[#14141466]" : "bg-transparent text-black"} w-[240px] text-center   md:h-16 h-10 border border-gray-300 dark:border-gray-700 rounded-lg`}>
+                    <option value="" hidden>Property-Type</option>
+                    <option value="commercial">commercial</option>
+                    <option value="residential">residential</option>
+                </select>
+                <select name="propertyRent" value={searchFields.propertyRent} id="" onChange={handleSearchFieldsChange} className={`${theme == "dark" ? "text-white bg-[#14141466]" : "bg-transparent text-black"} w-[240px] text-center    md:h-16 h-10 border border-gray-300 dark:border-gray-700 rounded-lg`}>
+                    <option value="" hidden>Prices-Range</option>
+                    <option value="2000">0-2000</option>
+                    <option value="4000">2000-4000</option>
+                    <option value="6000">4000-6000</option>
+                    <option value="more">more than 6000</option>
+                </select>
+                <select name="furnishedType" value={searchFields.furnishedType} onChange={handleSearchFieldsChange} id="" className={`${theme == "dark" ? "text-white bg-[#14141466]" : "bg-transparent text-black"} w-[240px] text-center    md:h-16 h-10 border border-gray-300 dark:border-gray-700 rounded-lg`}>
+                    <option value="" hidden >Furnished-Type</option>
+                    <option value="fullFurnished">furnished</option>
+                    <option value="halfFurnished">half-furnished</option>
+                    <option value="unFurnished">unfurnished</option>
+                </select>
+                <select name="bedrooms" value={searchFields.bedrooms} onChange={handleSearchFieldsChange} id="" className={`${theme == "dark" ? "text-white bg-[#14141466]" : "bg-transparent text-black"} w-[240px] text-center    md:h-16 h-10 border border-gray-300 dark:border-gray-700 rounded-lg`}>
+                    <option value="" hidden>Bedrooms</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
             </div>
             {/* map div  */}
             <div id='map' className='md:mx-20 mx-7 flex flex-col mb-2 justify-center items-center'>
@@ -106,24 +150,6 @@ function page() {
                 <LeafletMap onLocationSelected={handleLocationSelected} markers={markers} />
             </div>
 
-            {/* categories for filtering */}
-            <div className='flex flex-wrap w-[100%] justify-center items-center md:gap-10 gap-2'>
-                <select name="propertyType" id="" className={`${theme == "dark" ? "text-white bg-[#14141466]" : "bg-transparent text-black"} w-[240px] text-center   md:h-16 h-10 border border-gray-300 dark:border-gray-700 rounded-lg`}>
-                    <option value="commercial">commercial</option>
-                    <option value="residential">residential</option>
-                </select>
-                <select name="priceRange" id="" className={`${theme == "dark" ? "text-white bg-[#14141466]" : "bg-transparent text-black"} w-[240px] text-center    md:h-16 h-10 border border-gray-300 dark:border-gray-700 rounded-lg`}>
-                    <option value="2000">0-2000</option>
-                    <option value="4000">2000-4000</option>
-                    <option value="6000">4000-6000</option>
-                    <option value="more">more than 6000</option>
-                </select>
-                <select name="bedrooms" id="" className={`${theme == "dark" ? "text-white bg-[#14141466]" : "bg-transparent text-black"} w-[240px] text-center    md:h-16 h-10 border border-gray-300 dark:border-gray-700 rounded-lg`}>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                </select>
-            </div>
             {/* properties div*/}
             <div className='md:mx-20 mx-7 my-7'>
                 <div>
@@ -131,11 +157,11 @@ function page() {
                     <p className='text-[#787a7e]'>Hi,Here are our all listings </p>
                 </div>
                 {/* properties div */}
-                <div>
+                <div >
                     <Swiper
                         pagination={pagination}
                         modules={[Pagination]}
-                        className="mySwiper"
+                        className="mySwiper h-[1200px]"
                         onSlideChange={handleSlideChange} // Attach the slide change handler
                     >
                        
