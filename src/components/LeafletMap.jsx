@@ -7,7 +7,7 @@ import Image from 'next/image';
 import L from 'leaflet'; // Make sure to import L from Leaflet
 
 
-const LeafletMap = ({ onLocationSelected, markers }) => {
+const LeafletMap = ({ onLocationSelected, markers,properties }) => {
   const [userMarker, setUserMarker] = useState(null);
 
   // This hook handles map click events and updates the state
@@ -80,8 +80,8 @@ const LeafletMap = ({ onLocationSelected, markers }) => {
       )}
 
       {/* Displaying any other markers passed from props */}
-      {markers.map((marker, index) => (
-        <Marker key={index} position={[marker.latitude, marker.longitude]} icon={customIcon}
+      {properties?.map((item, index) => (
+        <Marker key={index} position={[item.location.latitude, item.location.longitude]} icon={customIcon}
         eventHandlers={{
             mouseover: (e) => {
               e.target.openPopup(); // Open popup on hover
@@ -91,7 +91,10 @@ const LeafletMap = ({ onLocationSelected, markers }) => {
             },
           }}
         >
-          <Popup>hiii</Popup>
+          <Popup>
+            <h1 className='font-bold'>{item.propertyName}</h1>
+            <p>{item.propertyDesc}</p>
+          </Popup>
          
         </Marker>
       ))}

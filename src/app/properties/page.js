@@ -150,7 +150,7 @@ function page() {
             {/* map div  */}
             <div id='map' className='md:mx-20 mx-7 flex flex-col mb-2 justify-center items-center'>
                 <h1>select location</h1>
-                <LeafletMap onLocationSelected={handleLocationSelected} markers={markers}  />
+                <LeafletMap onLocationSelected={handleLocationSelected} markers={markers} properties={currentPageProperties} />
             </div>
 
             {/* properties div*/}
