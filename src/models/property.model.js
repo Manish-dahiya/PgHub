@@ -42,15 +42,7 @@ const propertySchema = new mongoose.Schema({
     },
     images: {
         type: [
-           {
-            data:{
-                type:Buffer,   //<<<data type is buffer
-            },
-            contentType:{ //will include the file type
-                type:String
-            }
-           }
-        
+           {url:String, publicId:String}
         ] // specifying an array of strings for image URLs
     },
     location: {
@@ -70,3 +62,5 @@ const propertySchema = new mongoose.Schema({
 
 const properties= mongoose.models.properties ||   mongoose.model("properties",propertySchema)
 module.exports= properties
+
+

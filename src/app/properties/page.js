@@ -20,6 +20,7 @@ import Footer from '@/components/Footer'
 import Link from 'next/link'
 import backgroundPattern from "../../../public/backgroundPattern.png"
 import Image from 'next/image'
+import clientIcon from "../../../public/clientIcon.png"
 function page() {
     const init={
         propertyName:"",
@@ -41,11 +42,14 @@ function page() {
     const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
 
-    const [markers, setMarkers] = useState(()=>{
-        return currentPageProperties?.map((item,index)=>(
-            { latitude:item.location.latittue , longitude:item.location.longitude}
-        )) || [  { latitude: 30.7848005, longitude: 76.923568 }, { latitude: 51.515, longitude: -0.1 }]
-    })
+    // const [markers, setMarkers] = useState(()=>{
+    //     return currentPageProperties?.map((item,index)=>(
+    //         { latitude:item.location.latittue , longitude:item.location.longitude}
+    //     )) || [  { latitude: 30.7848005, longitude: 76.923568 }, { latitude: 51.515, longitude: -0.1 }]
+    // })
+    const [markers,setMarkers]=useState(
+        [  { latitude: 30.7848005, longitude: 76.923568 }, { latitude: 51.515, longitude: -0.1 }]
+    )
 
     // Handle the location selection and simulate storing it in the state
     const handleLocationSelected = (location) => {
@@ -69,15 +73,10 @@ function page() {
     };
 
     const handleSlideChange = (swiper) => {
-        const newPage = swiper.activeIndex + 1; // Swiper page starts from 0
+        const newPage = swiper.activeIndex+1 ; // Swiper page starts from 0
         setCurrentPage(newPage);
-        dispatch(getPropertiesByPagination(currentPage))
-    };
-
-
-    useEffect(() => {
-        console.log(currentPage)
-    }, [currentPage])
+        dispatch(getPropertiesByPagination(swiper.activeIndex+1)) 
+    }; 
 
     useEffect(() => {
         if (status == "pending") {
@@ -166,7 +165,7 @@ function page() {
                     >
                        
                         {
-                            Array(totalPropertiesCount/10).fill().map((item, index) => (
+                            Array(Math.ceil(totalPropertiesCount/10)).fill().map((item, index) => (
                                 <SwiperSlide key={index}>
                                     {
                                         loading ?
@@ -181,7 +180,7 @@ function page() {
                                                 {
                                                     currentPageProperties?.map((item, index) => (
                                                         <div key={index} >
-                                                            <PropertyCard name={item.propertyName} theme={theme} coverImg={`data:${item.images[0].contentType};base64,${Buffer.from(item.images[0].data.data).toString("base64")}`} desc={item.propertyDesc} type={item.propertyType} bedrooms={item.bedrooms} furnishedType={item.furnishedType} bathrooms={item.bathrooms} price={item.propertyRent} />
+                                                            <PropertyCard name={item.propertyName} theme={theme} coverImg={item.images[0].url} desc={item.propertyDesc} type={item.propertyType} bedrooms={item.bedrooms} furnishedType={item.furnishedType} bathrooms={item.bathrooms} price={item.propertyRent} />
                                                         </div>
                                                     ))}
                                             </div>

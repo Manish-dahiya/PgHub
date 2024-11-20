@@ -169,7 +169,7 @@ function page() {
             {
                  ownerProp?.data?.map((item,index)=>(
 
-                     <PropertyCard key={index} name={item.propertyName} coverImg={`data:${item.images[0].contentType};base64,${Buffer.from(item.images[0].data.data).toString("base64")}`} desc={item.propertyDesc} type={item.propertyType} bedrooms={item.bedrooms} furnishedType={item.furnishedType} bathrooms={item.bathrooms} price={item.propertyRent}/>
+                     <PropertyCard key={index} name={item.propertyName} coverImg={item.images[0].url} desc={item.propertyDesc} type={item.propertyType} bedrooms={item.bedrooms} furnishedType={item.furnishedType} bathrooms={item.bathrooms} price={item.propertyRent}/>
                  ))
              }
             </div>

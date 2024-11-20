@@ -8,7 +8,7 @@ export async function GET(req,{params}){
     console.log("ownerID is:",ownerId)
     try {
       const ownersAllProperties= await properties.find({owner: ownerId});
-      console.log(ownersAllProperties)
+      // console.log(ownersAllProperties)
      return NextResponse.json({response:ownersAllProperties,success:true})
     } catch (error) {
       console.log(error)    

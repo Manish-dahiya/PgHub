@@ -78,6 +78,7 @@ function AddPropertyForm({selectedLocation}) {
             toast.loading("listing...");
         } else if (status === "success" ) {
             toast.dismiss();
+            
             toast.success("Property listed successfully");
           
         } else if (status === "failed" ) {
@@ -141,10 +142,7 @@ function AddPropertyForm({selectedLocation}) {
         dispatch(addNewProperty(data))
     }
 
-    useEffect(()=>{
-        console.log(propertyImages)
-    },[propertyImages])
-
+ 
   return (
     <div className='w-full px-7 md:w-[50%] pb-10 pt-7 md:pt-0 '>
         <input type="text" name='propertyName' value={formData.propertyName} onChange={handleChange} placeholder='name' className='border bg-transparent w-[100%] border-slate-500 rounded-lg h-10 md:h-16 p-1 md:p-3 md:text-xl'/> &nbsp;&nbsp;&nbsp;&nbsp;

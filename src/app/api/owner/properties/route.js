@@ -1,8 +1,30 @@
 import connectToDatabase from "@/lib/dbConnect";
 import properties from "@/models/property.model";
 import { NextResponse } from "next/server";
+import { v2 as cloudinary } from "cloudinary";
 
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+
+// Function to upload directly from a stream to Cloudinary
+const uploadToCloudinary = (buffer) => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder: "properties" }, // Specify folder
+      (error, result) => {
+        if (result) resolve(result);
+        else reject(error);
+      }
+    );
+   
+   stream.end(buffer)
+  });
+};
 
 export async function POST(req) {
   await connectToDatabase()
@@ -27,27 +49,20 @@ export async function POST(req) {
   const status = body.get('status');
   const images = body.getAll("images")
 
-
-  //map function was returning an array of promises,To handle all those promises ,you have used
-  //Promise.all( [..arr of promises..])  :-->
-  //THIS MAIN PROMISE WILL GET RESOLVED IF ALL PROMISES IN THE ARRAY ARE RESOLVED
-  //OR REJECT IF ANY PROMISE IN THE ARRAY REJECTS
-
-  //  By await on Promise.all, we pause execution until all the promises have completed.
-
-  const imagesData = await Promise.all(
-    images.map(async (file) => {
-      const arrayBuffer = await file.arrayBuffer(); // from File API
-      const buffer = Buffer.from(arrayBuffer); // from Node.js
-
-      return {
-        name: file.name,
-        data: buffer,
-        contentType: file.type,
-      };
-    })
-  );
   try {
+    
+       const uploadPromises = images.map(async (image) => {
+        const arrayBuffer = await image.arrayBuffer(); // Get ArrayBuffer
+        const buffer = Buffer.from(arrayBuffer); // Convert to Buffer
+        return uploadToCloudinary(buffer); // Upload buffer to Cloudinary
+      });
+
+    const uploadedImages = await Promise.all(uploadPromises);
+
+    // Extract URLs
+    const imagesForDB = uploadedImages.map((img) => {return  {url:img.secure_url,publicId:img.public_id} });
+  
+
     const createdProperty = await properties.create({
       propertyName: propertyName,
       propertyDesc: propertyDesc,
@@ -62,14 +77,14 @@ export async function POST(req) {
       parking: parking,
       laundary: laundary,
       extraRequirements: extraRequirements,
-      images: imagesData, //<---------------------------
+      images: imagesForDB, //<---------------------------
       location: { latitude: latitude, longitude: longitude },
       feedback: null,//<------
       owner: owner, //<--------------------------------
       status: status,
     })
 
-    console.log("property created:", createdProperty.propertyName)
+    console.log("property created@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:", createdProperty.propertyName)
     return NextResponse.json({ response: createdProperty, success: true });
 
   } catch (error) {
@@ -77,3 +92,8 @@ export async function POST(req) {
     return NextResponse.json({ response: error, success: false });
   }
 }
+
+
+//1..ENV FILE
+//2.FRONTEND SENT IMAGE
+//3.BACKEND
