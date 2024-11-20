@@ -43,11 +43,12 @@ const LeafletMap = ({ onLocationSelected, markers }) => {
     iconAnchor: [16, 32], // Anchor the icon to the bottom center
     popupAnchor: [0, -32], // Position the popup relative to the icon
   });
+  const mapCenter={lat:30.714241901356576,lan:76.74618446637054} ;//chandigarh
 
   return (
     <>
     <MapContainer
-      center={[30.7848005, 76.923568]} // Set initial map center
+      center={[mapCenter.lat,mapCenter.lan]} // Set initial map center
       zoom={13}
       className='map-styles'
       style={{ height: '700px'   }}

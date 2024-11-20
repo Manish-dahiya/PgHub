@@ -6,7 +6,9 @@ import React from 'react'
 function PropertyCard({ theme, name, desc, price, coverImg, type, furnishedType, bedrooms, bathrooms, parking }) {
   return (
     <div className={`h-[400px] ${theme=="light" && "bg-[#cdbdeb]"}  w-auto md:mx-4  hover:scale-105 transition-transform border border-slate-500 rounded-lg px-3 pt-3 pb-4 flex flex-col`}>
-      <Image src={coverImg} alt='image' width={400} height={500} className='rounded-lg' priority/>
+     <div className='h-[550px] w-[270px] overflow-y-hidden flex justify-center items-center'>
+     <Image src={coverImg} alt='image' width={400} height={300} className='rounded-lg' priority/>
+     </div>
       <h1 className='font-bold my-1'>{name}</h1>
       <p className='text-[#787a7e] mb-1'>    Enchanting three bedrooms, three bath home with spacious one
         bedroom, one bath...</p>

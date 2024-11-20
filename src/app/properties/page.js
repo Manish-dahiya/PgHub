@@ -38,18 +38,22 @@ function page() {
     const status = useSelector((state) => state.propertyData.propertyInfo.status)
     const errorMessage = useSelector((state) => state.propertyData.propertyInfo.error)
     const totalPropertiesCount=useSelector((state)=>state.propertyData.totalPropertyInfo.data)
-
+    const [markers, setMarkers] =useState([  { latitude: 30.7848005, longitude: 76.923568 }, { latitude: 51.515, longitude: -0.1 }])
     const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
 
-    // const [markers, setMarkers] = useState(()=>{
-    //     return currentPageProperties?.map((item,index)=>(
-    //         { latitude:item.location.latittue , longitude:item.location.longitude}
-    //     )) || [  { latitude: 30.7848005, longitude: 76.923568 }, { latitude: 51.515, longitude: -0.1 }]
-    // })
-    const [markers,setMarkers]=useState(
-        [  { latitude: 30.7848005, longitude: 76.923568 }, { latitude: 51.515, longitude: -0.1 }]
-    )
+    
+    // const [markers,setMarkers]=useState(
+    //     [  { latitude: 30.7848005, longitude: 76.923568 }, { latitude: 51.515, longitude: -0.1 }]
+    // )
+    useEffect(()=>{
+        setMarkers(()=>(
+             currentPageProperties?.map((item,index)=>(
+                { latitude:item.location.latitude , longitude:item.location.longitude}
+            )) ||[{ latitude: 30.7848005, longitude: 76.923568 }, { latitude: 51.515, longitude: -0.1 }]
+        )
+        )
+    },[currentPageProperties])
 
     // Handle the location selection and simulate storing it in the state
     const handleLocationSelected = (location) => {
@@ -146,7 +150,7 @@ function page() {
             {/* map div  */}
             <div id='map' className='md:mx-20 mx-7 flex flex-col mb-2 justify-center items-center'>
                 <h1>select location</h1>
-                <LeafletMap onLocationSelected={handleLocationSelected} markers={markers} />
+                <LeafletMap onLocationSelected={handleLocationSelected} markers={markers}  />
             </div>
 
             {/* properties div*/}
