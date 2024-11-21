@@ -13,7 +13,7 @@ import 'swiper/css/pagination';
 
 // import required modules
 import { Pagination } from 'swiper/modules';
-import { getPropertiesByPagination, getTotalPropertiesCount } from '@/redux/propertySlice'
+import { getPropertiesByPagination } from '@/redux/propertySlice'
 import PropertyCard from '@/components/PropertyCard'
 import SkeletonLoader from '@/components/SkeletonLoader'
 import Footer from '@/components/Footer'
@@ -21,6 +21,9 @@ import Link from 'next/link'
 import backgroundPattern from "../../../public/backgroundPattern.png"
 import Image from 'next/image'
 import clientIcon from "../../../public/clientIcon.png"
+import noData from "../../../public/noData.avif"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 function page() {
     const init={
         propertyName:"",
@@ -33,11 +36,10 @@ function page() {
     const [searchFields,setSearchFields]=useState(init)
     const theme = useSelector((state) => state.getTheme.theme)
     const [selectedLocation, setSelectedLocation] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1); // State to track current page
     const currentPageProperties = useSelector((state) => state.propertyData.propertyInfo.data)
+    const totalPropCount = useSelector((state) => state.propertyData.propertyInfo.totalCount)
     const status = useSelector((state) => state.propertyData.propertyInfo.status)
     const errorMessage = useSelector((state) => state.propertyData.propertyInfo.error)
-    const totalPropertiesCount=useSelector((state)=>state.propertyData.totalPropertyInfo.data)
     const [markers, setMarkers] =useState([  { latitude: 30.7848005, longitude: 76.923568 }, { latitude: 51.515, longitude: -0.1 }])
     const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
@@ -78,8 +80,7 @@ function page() {
 
     const handleSlideChange = (swiper) => {
         const newPage = swiper.activeIndex+1 ; // Swiper page starts from 0
-        setCurrentPage(newPage);
-        dispatch(getPropertiesByPagination(swiper.activeIndex+1)) 
+        dispatch(getPropertiesByPagination({pgNo:swiper.activeIndex+1,filters:searchFields})) 
     }; 
 
     useEffect(() => {
@@ -92,13 +93,16 @@ function page() {
     }, [status, errorMessage])
 
     useEffect(() => {
-        dispatch(getPropertiesByPagination(1))
-        dispatch(getTotalPropertiesCount())
+        dispatch(getPropertiesByPagination({
+            pgNo: 1, 
+            filters: searchFields
+          }));  
     }, [])
 
     const handleSearchFieldsChange=(e)=>{
         const {name,value}=e.target
         setSearchFields((prev)=>({
+            ...prev,
             [name]:value
         })) 
     }
@@ -117,7 +121,7 @@ function page() {
             {/* search bar */}
             <div className='flex md:gap-4 md:mx-20 m-7'>
                 <input type="text" placeholder='search'  name='propertyName' value={searchFields.propertyName} onChange={handleSearchFieldsChange}  className='border  bg-transparent w-[100%] border-slate-500 rounded-lg h-10 md:h-16 p-1 md:p-3 md:text-xl' />
-                <button className='border rounded-lg border-[#787a7e] px-4 py-1'>search</button>
+                <button className='border rounded-lg border-[#787a7e] px-4 py-1' onClick={()=>dispatch(getPropertiesByPagination({pgNo:1,filters:searchFields}))} >search</button>
             </div>
             
             {/* categories for filtering */}
@@ -129,10 +133,10 @@ function page() {
                 </select>
                 <select name="propertyRent" value={searchFields.propertyRent} id="" onChange={handleSearchFieldsChange} className={`${theme == "dark" ? "text-white bg-[#14141466]" : "bg-transparent text-black"} w-[240px] text-center    md:h-16 h-10 border border-gray-300 dark:border-gray-700 rounded-lg`}>
                     <option value="" hidden>Prices-Range</option>
-                    <option value="2000">0-2000</option>
-                    <option value="4000">2000-4000</option>
-                    <option value="6000">4000-6000</option>
-                    <option value="more">more than 6000</option>
+                    <option value="2000">less than $2000</option>
+                    <option value="4000">less than $4000</option>
+                    <option value="6000">less than $6000</option>
+                    <option value="more">more than $6000</option>
                 </select>
                 <select name="furnishedType" value={searchFields.furnishedType} onChange={handleSearchFieldsChange} id="" className={`${theme == "dark" ? "text-white bg-[#14141466]" : "bg-transparent text-black"} w-[240px] text-center    md:h-16 h-10 border border-gray-300 dark:border-gray-700 rounded-lg`}>
                     <option value="" hidden >Furnished-Type</option>
@@ -146,6 +150,9 @@ function page() {
                     <option value="2">2</option>
                     <option value="3">3</option>
                 </select>
+                <div>
+                    <button className='border rounded-lg border-[#787a7e] px-4 py-3' onClick={()=> setSearchFields(init)}>Reset</button>
+                </div>
             </div>
             {/* map div  */}
             <div id='map' className='md:mx-20 mx-7 flex flex-col mb-2 justify-center items-center'>
@@ -161,7 +168,7 @@ function page() {
                 </div>
                 {/* properties div */}
                 <div >
-                    <Swiper
+                  { totalPropCount>0 ? <Swiper
                         pagination={pagination}
                         modules={[Pagination]}
                         className="mySwiper h-[1200px]"
@@ -169,7 +176,7 @@ function page() {
                     >
                        
                         {
-                            Array(Math.ceil(totalPropertiesCount/10)).fill().map((item, index) => (
+                            Array(Math.ceil(totalPropCount/10)).fill().map((item, index) => (
                                 <SwiperSlide key={index}>
                                     {
                                         loading ?
@@ -192,7 +199,15 @@ function page() {
                                 </SwiperSlide>
                             ))
                         }
-                    </Swiper>
+                    </Swiper>  :
+
+                        <div className='text-6xl text-slate-800  h-[900px] flex gap-10  justify-center items-center'>
+                            <FontAwesomeIcon icon={faMagnifyingGlass} />
+                            <h1>Ooooooopsssss!!!        No Data found</h1>
+                        
+                        </div>
+                        
+                    }
                 </div>
 
             </div>

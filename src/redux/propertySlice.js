@@ -5,7 +5,8 @@ const initialState={
     propertyInfo:{
         status:"idle",
         data:null,
-        error:null
+        error:null,
+        totalCount:null
     },
     ownerProperties:{
         status:"idle",
@@ -37,13 +38,31 @@ export const getOwnersProperties=createAsyncThunk(
         return res.json();
     }
 )
-export const getPropertiesByPagination=createAsyncThunk(
+// export const getPropertiesByPagination=createAsyncThunk(
+//     "propertySlice/getPropertiesByPagination",
+//     async(pgNo)=>{
+//         const res= await fetch(`/api/properties/${pgNo}`,{method:"GET"})
+//         return res.json();
+//     }
+// )
+export const getPropertiesByPagination = createAsyncThunk(
     "propertySlice/getPropertiesByPagination",
-    async(pgNo)=>{
-        const res= await fetch(`/api/properties/${pgNo}`,{method:"GET"})
-        return res.json();
+    async ({ pgNo, filters }) => {
+      // Construct the query parameters
+      const queryParams = new URLSearchParams(filters).toString();
+  
+      const res = await fetch(`/api/properties/${pgNo}?${queryParams}`, { method: "GET" });
+      
+      if (!res.ok) {
+        throw new Error("Failed to fetch properties");
+      }
+  
+      return res.json();
     }
-)
+  );
+
+
+
 
 export const getTotalPropertiesCount=createAsyncThunk(
     "propertySlice/getTotalPropertiesCount",
@@ -105,8 +124,9 @@ const propertySlice= createSlice({
             else{
                 state.propertyInfo.status="success"
                 state.propertyInfo.error=null,
-                console.log(action.payload.response)
                 state.propertyInfo.data=action.payload.response
+                state.propertyInfo.totalCount=action.payload.totalCount
+                console.log(action.payload.response)
             }
         })
         .addCase(getTotalPropertiesCount.pending,(state)=>{
