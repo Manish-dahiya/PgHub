@@ -101,13 +101,12 @@ const propertySlice= createSlice({
         .addCase(getOwnersProperties.fulfilled,(state,action)=>{
             if(action.payload.success==false){
                 state.ownerProperties.status="failed"
-                console.log("owner properties from false",action.payload.response)
                 state.ownerProperties.error= action.payload.response ; //error message
             }
             else{
                 state.ownerProperties.status="success"
                 state.ownerProperties.error=null,
-                console.log("owner properties from true",action.payload.response)
+            
                 state.ownerProperties.data=action.payload.response
             }
         })
@@ -117,7 +116,7 @@ const propertySlice= createSlice({
         .addCase(getPropertiesByPagination.fulfilled,(state,action)=>{
             if(action.payload.success==false){
                 state.propertyInfo.status="failed"
-                console.log(action.payload.response)
+        
 
                 state.propertyInfo.error= action.payload.response ; //error message
             }
@@ -126,7 +125,7 @@ const propertySlice= createSlice({
                 state.propertyInfo.error=null,
                 state.propertyInfo.data=action.payload.response
                 state.propertyInfo.totalCount=action.payload.totalCount
-                console.log(action.payload.response)
+        
             }
         })
         .addCase(getTotalPropertiesCount.pending,(state)=>{

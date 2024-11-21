@@ -21,7 +21,6 @@ import Link from 'next/link'
 import backgroundPattern from "../../../public/backgroundPattern.png"
 import Image from 'next/image'
 import clientIcon from "../../../public/clientIcon.png"
-import noData from "../../../public/noData.avif"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 function page() {
@@ -125,7 +124,7 @@ function page() {
             </div>
             
             {/* categories for filtering */}
-            <div className='flex flex-wrap w-[100%] justify-center items-center md:gap-10 gap-2'>
+            <div className='flex md:flex-wrap md:flex-row w-[100%] flex-col  justify-center items-center md:gap-10 gap-2'>
                 <select name="propertyType" value={searchFields.propertyType} onChange={handleSearchFieldsChange} id="" className={`${theme == "dark" ? "text-white bg-[#14141466]" : "bg-transparent text-black"} w-[240px] text-center   md:h-16 h-10 border border-gray-300 dark:border-gray-700 rounded-lg`}>
                     <option value="" hidden>Property-Type</option>
                     <option value="commercial">commercial</option>
@@ -150,9 +149,9 @@ function page() {
                     <option value="2">2</option>
                     <option value="3">3</option>
                 </select>
-                <div>
+               
                     <button className='border rounded-lg border-[#787a7e] px-4 py-3' onClick={()=> setSearchFields(init)}>Reset</button>
-                </div>
+               
             </div>
             {/* map div  */}
             <div id='map' className='md:mx-20 mx-7 flex flex-col mb-2 justify-center items-center'>
@@ -191,7 +190,7 @@ function page() {
                                                 {
                                                     currentPageProperties?.map((item, index) => (
                                                         <div key={index} >
-                                                            <PropertyCard name={item.propertyName} theme={theme} coverImg={item.images[0].url} desc={item.propertyDesc} type={item.propertyType} bedrooms={item.bedrooms} furnishedType={item.furnishedType} bathrooms={item.bathrooms} price={item.propertyRent} />
+                                                            <PropertyCard item={item} />
                                                         </div>
                                                     ))}
                                             </div>
