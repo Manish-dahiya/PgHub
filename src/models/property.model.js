@@ -61,6 +61,6 @@ const propertySchema = new mongoose.Schema({
 });
 
 const properties= mongoose.models.properties ||   mongoose.model("properties",propertySchema)
-module.exports= properties
+export default properties
 
 

@@ -5,20 +5,20 @@ import Link from 'next/link'
 import React from 'react'
 
 function PropertyCard({ theme, item }) {
-  let name= item.propertyName
-  let price=item.propertyRent
-  let id=item._id
-  let coverImg= item.images[0].url
-  let desc= item.propertyDesc
-  let type=item.propertyType
-  let bedrooms=item.bedrooms
-  let furnishedType=item.furnishedType
-  let bathrooms= item.bathrooms
-  let parking= item.parking
+  let name= item?.propertyName 
+  let price=item?.propertyRent 
+  let id=item?._id
+  let coverImg= item?.images[0].url
+  let desc= item?.propertyDesc
+  let type=item?.propertyType
+  let bedrooms=item?.bedrooms
+  let furnishedType=item?.furnishedType
+  let bathrooms= item?.bathrooms
+  let parking= item?.parking
   return (
     <div className={`h-[400px] ${theme=="light" && "bg-[#cdbdeb]"}  w-auto md:mx-4  hover:scale-105 transition-transform border border-slate-500 rounded-lg px-3 pt-3 pb-4 flex flex-col`}>
      <div className='h-[550px] w-[270px] overflow-y-hidden flex justify-center items-center'>
-     <Image src={coverImg} alt='image' width={400} height={300} className='rounded-lg' priority/>
+    {coverImg && <Image src={coverImg} alt='image' width={400} height={300} className='rounded-lg' priority/>}
      </div>
       <h1 className='font-bold my-1'>{name}</h1>
       <p className='text-[#787a7e] mb-1'>    Enchanting three bedrooms, three bath home with spacious one

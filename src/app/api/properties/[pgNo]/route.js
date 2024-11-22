@@ -1,7 +1,7 @@
 import connectToDatabase from "@/lib/dbConnect";
 import properties from "@/models/property.model"
 import { NextResponse } from "next/server";
-
+import users from "@/models/user.model";
 
 export async function GET(req, {params}){
     await connectToDatabase();
@@ -42,7 +42,7 @@ export async function GET(req, {params}){
       const skip = (pageNumber - 1) * pageSize;
   
       // Fetch properties from the database with filtering and pagination
-      const Fetchedproperties = await properties.find(query)  //query == {propertyType:"residentail",propertyRent:"200",furnishedType:"fullyfurnsied"}
+      const Fetchedproperties = await properties.find(query).populate("owner")  //query == {propertyType:"residentail",propertyRent:"200",furnishedType:"fullyfurnsied"}
         .skip(skip)
         .limit(pageSize);
   

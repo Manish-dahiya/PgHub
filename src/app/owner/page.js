@@ -168,8 +168,8 @@ function page() {
             <div className='w-[80vw] grid md:grid-cols-3 md:gap-1 gap-7 grid-rows-auto  '>
             {
                  ownerProp?.data?.map((item,index)=>(
-
-                     <PropertyCard key={index} name={item.propertyName} coverImg={item.images[0].url} desc={item.propertyDesc} type={item.propertyType} bedrooms={item.bedrooms} furnishedType={item.furnishedType} bathrooms={item.bathrooms} price={item.propertyRent}/>
+                  //name={item.propertyName} coverImg={item.images[0].url} desc={item.propertyDesc} type={item.propertyType} bedrooms={item.bedrooms} furnishedType={item.furnishedType} bathrooms={item.bathrooms} price={item.propertyRent}
+                     <PropertyCard key={index} item={item}/>
                  ))
              }
             </div>

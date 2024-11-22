@@ -7,6 +7,11 @@ const initialState={
         data:JSON.parse(localStorage.getItem("user"))? decodeToken(JSON.parse(localStorage.getItem("user"))):null,   
         status:"idle",
         error:null
+    },
+    emailData:{
+        response:"Idle",
+        state:"idle",
+        error:null
     }
 }
 
@@ -31,6 +36,21 @@ export const registerUser= createAsyncThunk(
     "userSlice/registerUser",
     async(formData)=>{
         const res= await fetch("/api/user/register",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(formData)
+        })
+        return res.json();
+    }
+)
+
+
+export const sendEmail= createAsyncThunk(
+    "userSlice/sendEmail",
+    async(formData)=>{
+        const res= await fetch("/api/user/emailOwner",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -91,6 +111,19 @@ const userSlice= createSlice({
         .addCase(registerUser.rejected,(state,action)=>{
             state.user.status="rejected"
             // state.error=action.payload.response || "An error occurred during login.";
+        })
+        .addCase(sendEmail.pending,(state)=>{
+            state.emailData.status="pending"
+            state.emailData.response="processing"
+        })
+        .addCase(sendEmail.fulfilled,(state,action)=>{
+            if(action.payload.success==false){
+                 state.emailData.status="failed"
+            state.emailData.response="error in sending email"
+            }else{
+                state.emailData.response=action.payload.response
+                state.emailData.status="success"
+            }
         })
     }
 })
