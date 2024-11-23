@@ -1,8 +1,18 @@
 const { createSlice, current } = require("@reduxjs/toolkit")
 
-const initialState={
-    theme: (typeof window !== 'undefined' && localStorage.getItem("theme")) || "dark",
-}
+const getInitialTheme = () => {
+    if (typeof window !== "undefined") {  //if it is client side
+      // Only access localStorage on the client
+      return localStorage.getItem("theme") || "dark";
+    }
+    return "dark"; // Default theme for server-side rendering
+  };
+
+
+
+  const initialState = {
+    theme: getInitialTheme(),
+  };
 
 
 
@@ -12,8 +22,11 @@ const themeSlice = createSlice({
     reducers: {
         // Action to change the theme
         changeTheme(state, action) {
-            state.theme = action.payload;  // Directly update the theme in state
-        }
+            state.theme = action.payload;
+            if (typeof window !== "undefined") {//if it is client side
+              localStorage.setItem("theme", action.payload); // Update localStorage in the browser
+            }
+          },
     }
 });
 

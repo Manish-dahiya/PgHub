@@ -4,17 +4,18 @@ import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 
-function SendEmailForm() {
+function SendEmailForm(ownerEmail) {
     const init= {
         firstName:"",
         lastName:"",
         email:"",
-        message:""
+        message:"",
+        ownerEmail:ownerEmail
     }
     const theme= useSelector((state)=>state.getTheme.theme)
     const [formData,setFormData]=useState(init)
     const responseMessage= useSelector((state)=>state.userData.emailData.response)
-    const status= useSelector((state)=>state.userData.emailData.state)
+    const status= useSelector((state)=>state.userData.emailData.status)
     const dispatch= useDispatch()
     const handleChange=(e)=>{
         const {name,value}=e.target
@@ -37,9 +38,11 @@ function SendEmailForm() {
             toast.loading("sending..")
         }
         else if(status=="failed"){
+            toast.dismiss()
             toast.error(responseMessage)
         }
         else if(status=="success"){
+            toast.dismiss()
             toast.success(responseMessage)
         }
     },[responseMessage,status])

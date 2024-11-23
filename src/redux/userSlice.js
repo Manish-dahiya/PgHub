@@ -4,18 +4,16 @@ const { createAsyncThunk, createSlice,current } = require("@reduxjs/toolkit")
 
 const initialState={
     user:{
-        data:JSON.parse(localStorage.getItem("user"))? decodeToken(JSON.parse(localStorage.getItem("user"))):null,   
+        data:  typeof window!="undefined" && JSON.parse(localStorage.getItem("user"))? decodeToken(JSON.parse(localStorage.getItem("user"))):null,   
         status:"idle",
         error:null
     },
     emailData:{
         response:"Idle",
-        state:"idle",
+        status:"idle",
         error:null
     }
 }
-
-
 
 export const loginUser = createAsyncThunk(
     "userSlice/loginUser",
@@ -104,7 +102,9 @@ const userSlice= createSlice({
                 state.user.status="success"
                 state.user.error=null
                 let token= JSON.stringify(action.payload.response)
-                localStorage.setItem("user",token)
+                if(typeof window!="undefined"){
+                    localStorage.setItem("user",token)
+                }
                 // state.user.data=decodeToken(JSON.parse(localStorage.getItem("user")))
             }
         })
@@ -123,6 +123,7 @@ const userSlice= createSlice({
             }else{
                 state.emailData.response=action.payload.response
                 state.emailData.status="success"
+                console.log(action.payload.response)
             }
         })
     }

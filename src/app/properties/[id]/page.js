@@ -105,7 +105,7 @@ function Page() {
                 </div>
 
                 <div className='w-[50%]'>
-                    <SendEmailForm />
+                  { currentProperty && <SendEmailForm ownerEmail={currentProperty[0]?.owner.email} />}
                 </div>
             </div>
 

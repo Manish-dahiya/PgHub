@@ -3,9 +3,16 @@ import properties from "@/models/property.model"
 import { NextResponse } from "next/server";
 import users from "@/models/user.model";
 
-export async function GET(req, {params}){
-    await connectToDatabase();
-    const pgNo  = parseInt(params.pgNo, 10);// Page number from the URL
+export async function GET(req,context){
+     // Wait for params to be available
+     const params = await context.params;
+  let pgNo = params.pgNo;
+        
+     // Connect to database first
+     await connectToDatabase();
+     
+     // Parse page number after ensuring params is available
+      pgNo = parseInt(pgNo, 10);
   const filters = Object.fromEntries(req.nextUrl.searchParams); // Get all query params as an object
 
 
@@ -29,7 +36,6 @@ export async function GET(req, {params}){
         query.bedrooms = Number(filters.bedrooms);
       }
       if (filters.id) {
-        console.log(filters.id)
         query._id =  filters.id;
       }
     
