@@ -4,22 +4,7 @@ import { addNewProperty } from '@/redux/propertySlice'
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
-
-//{
-    // name: String,
-    // description: String,
-    // location: String,
-    // rent: Number,
-    // extra require: [String], <--only married allowed
-    // feedback: [
-    //     {rating,userid,text}
-    //     ]
-    // owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    // createdAt: { type: Date, default: Date.now },
-    // status:
-    // images<----------------array required
-    //previous users
-//}
+import {motion} from  "framer-motion"
 
 
 function AddPropertyForm({selectedLocation}) {
@@ -207,7 +192,15 @@ function AddPropertyForm({selectedLocation}) {
         </div> 
 
         <br />
-        <button className={`${theme=="dark"?"text-white bg-blue-500" : "bg-blue-500 text-black"} md:mt-10 py-2 px-4 rounded-lg `} onClick={handlePropertyListing} >List</button>
+        <motion.button className={`${theme=="dark"?"text-white bg-blue-500" : "bg-blue-500 text-black"} md:mt-10 py-2 px-6 rounded-lg `} onClick={handlePropertyListing}
+        whileHover={{
+            scale:1.1
+        }}
+        whileTap={{
+            scale:0.95,
+            rotate:"-4deg"
+        }}
+        >List</motion.button>
 
     </div>
   )

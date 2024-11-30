@@ -13,6 +13,7 @@ import backgroundPattern from "../../../public/backgroundPattern.png"
 import Link from 'next/link'
 import { decodeToken } from '@/helper/helper'
 import { getOwnersProperties } from '@/redux/propertySlice'
+import {motion} from "framer-motion"
 
 const properties=[
     {
@@ -83,7 +84,7 @@ const properties=[
 
 function page() {
     const theme= useSelector((state)=>state.getTheme.theme)
-    const [active,setActive]=useState(1) //default properties set
+    const [active,setActive]=useState(2) //default properties set
     const userFromStore= useSelector((state)=>state.userData.user.data)
     const [localUser,setLocalUser]=useState({username:null,email:null,contact:null,role:null})
     const [selectedLocation, setSelectedLocation] = useState(null);
@@ -165,17 +166,37 @@ function page() {
         {
             active==1 ?
             <div className='md:my-10 flex justify-center items-center '>
-            <div className='w-[80vw] grid md:grid-cols-3 md:gap-1 gap-7 grid-rows-auto  '>
+            <motion.div className='w-[80vw] grid md:grid-cols-3 md:gap-1 gap-7 grid-rows-auto  '
+             initial={{
+              opacity:0,
+             }}
+             whileInView={{
+              opacity:1
+             }}
+             transition={{
+              duration:0.5
+             }}
+            >
             {
                  ownerProp?.data?.map((item,index)=>(
                   //name={item.propertyName} coverImg={item.images[0].url} desc={item.propertyDesc} type={item.propertyType} bedrooms={item.bedrooms} furnishedType={item.furnishedType} bathrooms={item.bathrooms} price={item.propertyRent}
                      <PropertyCard key={index} item={item}/>
                  ))
              }
-            </div>
+            </motion.div>
          </div>
         :   //clients div
-             <div className='flex md:items-center px-5   md:justify-center  md:px-20 md:mt-10'>
+             <motion.div className='flex md:items-center px-5   md:justify-center  md:px-20 md:mt-10'
+             initial={{
+              opacity:0,
+             }}
+             whileInView={{
+              opacity:1
+             }}
+             transition={{
+              duration:0.5
+             }}
+             >
                 <table className='w-full text-center '>
                     <thead>
                         <tr className={`h-10 w-full border-b-4 ${theme=="dark"? " border-[#141414]" :"border-[#999696]"}`}>
@@ -200,7 +221,7 @@ function page() {
                         }
                     </tbody>
                 </table>
-             </div>
+             </motion.div>
         }
             <div className={` py-4 px-20 mt-24 border-b-2  ${theme=="dark"? " border-[#141414]" :"border-[#999696]"}`}/>
 
@@ -223,7 +244,9 @@ function page() {
                   
                   <h1  className="md:text-3xl pt-7">Start Your pg finding journey Today</h1>
                   <p className="text-gray-500">Start your PG-finding journey today with PGHub! Discover a seamless and convenient way to search for your ideal paying guest accommodation. At PGHub, we understand the importance of finding a comfortable and affordable space that feels like home. Whether you’re a student, a professional, or anyone in need of a place to stay, our platform offers a wide range of options tailored to your preferences and budget. Say goodbye to the hassle of endless searches and let PGHub guide you to the perfect spot. Begin your journey with us today and find your next home with ease and confidence!</p>
-                  <div className="m-20"><Link href={"/properties"} className="rounded-lg px-3 py-3 pbutton ">Explore properties</Link></div>
+                  <div className="m-20" 
+
+                  ><Link href={"/properties"} className="rounded-lg px-3 py-3 pbutton hover:scale-105 cursor-pointer">Explore properties</Link></div>
                 </div>
           </div>
 

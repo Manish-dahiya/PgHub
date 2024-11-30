@@ -167,7 +167,7 @@ function page() {
                 </div>
                 {/* properties div */}
                 <div >
-                  { totalPropCount>0 ? <Swiper
+                 <Swiper
                         pagination={pagination}
                         modules={[Pagination]}
                         className="mySwiper h-[1200px]"
@@ -200,13 +200,7 @@ function page() {
                         }
                     </Swiper>  :
 
-                        <div className='text-6xl text-slate-800  h-[900px] flex gap-10  justify-center items-center'>
-                            <FontAwesomeIcon icon={faMagnifyingGlass} />
-                            <h1>Ooooooopsssss!!!        No Data found</h1>
-                        
-                        </div>
-                        
-                    }
+                    
                 </div>
 
             </div>
@@ -220,7 +214,7 @@ function page() {
                   <div className="m-20"><Link href={"/properties"} className="rounded-lg px-3 py-3 pbutton ">Explore properties</Link></div>
                 </div>
           </div>
-            <Footer />
+            <Footer theme={theme}/>
 
         </div>
     )
