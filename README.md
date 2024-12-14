@@ -1,3 +1,30 @@
+#PG HUB - NEXTJS FULLSTACK APP
+FUNCTIONALITY THIS OFFERS
+-->PG LISTING FUNCTIONALITY
+-->PG SEARCHING FUNCTIONALITY ON THE BASIS OF FILTERS
+-->FEATURED PG'S 
+-->EMAIL THE OWNER FOR FURHTER QUERIES
+-->OWNER CAN UPLOAD MULTIPLE PICTURES OF LISTED PG
+-->CHOOSE THE LOCATION FROM THE MAP
+
+#UI AND THE BASIC FUNCTIONALITIES
+https://github.com/user-attachments/assets/76b76f23-a6a8-4afc-82ea-5d6355c11b2b
+
+
+
+#OWNER PAGE AND LISTING PG
+https://github.com/user-attachments/assets/f9d728a9-e825-48c2-b830-aabe2bd6eac8
+
+
+
+#USED 
+-->CLOUDINARY TO STORE AND MANIPULATE THE IMAGES
+-->MONGO DB FOR STORING THE USER AND PG'S INFO
+-->NEXT JS 
+
+
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
