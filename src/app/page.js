@@ -80,7 +80,8 @@ const reviews=[
     id:2,
     name:"harivansh",
     text:"Awesome app",
-    rating:3
+    rating:3,
+  
   },
   {
     id:3,

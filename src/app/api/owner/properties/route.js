@@ -29,13 +29,17 @@ const uploadToCloudinary = (buffer) => {
 export async function POST(req) {
   await connectToDatabase()
   const body = await req.formData();
-  const propertyName = toLowerCase(body.get('propertyName'));
+  // const propertyName = toLowerCase(body.get('propertyName'));
+  const propertyName = body.get("propertyName")?.toLowerCase() || "";
+
   const propertyDesc = body.get('propertyDesc');
   const propertyRent = parseInt(body.get('propertyRent'));
   const propertyType = body.get('propertyType');
   const bedrooms = parseInt(body.get('bedrooms'));
   const bathrooms = parseInt(body.get('bathrooms'));
-  const furnishedType = toLowerCase(body.get('furnishedType'));
+  // const furnishedType = toLowerCase(body.get('furnishedType'));
+    const furnishedType = body.get("furnishedType")?.toLowerCase() || "";
+
   const kitchen = body.get('kitchen') === 'true'; // Convert string to boolean if necessary
   const hall = body.get('hall') === 'true';
   const balcony = body.get('balcony') === 'true';

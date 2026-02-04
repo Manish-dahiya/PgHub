@@ -21,7 +21,9 @@ export async function GET(req,context){
   
       // Add conditions based on filters
       if (filters.propertyName) {
-        query.propertyName = toLowerCase(filters.propertyName);
+        // query.propertyName = toLowerCase(filters.propertyName);
+        query.propertyName =filters.propertyName.toLowerCase();
+
       }
       if (filters.propertyType) {
         query.propertyType = filters.propertyType;
@@ -30,7 +32,9 @@ export async function GET(req,context){
         query.propertyRent = { $lte: Number(filters.propertyRent) }; // Ensure the rent is less than or equal to the filter value
       }
       if (filters.furnishedType) {
-        query.furnishedType = toLowerCase(filters.furnishedType);
+        // query.furnishedType = toLowerCase(filters.furnishedType);
+          query.furnishedType = filters.furnishedType.toLowerCase();
+
       }
       if (filters.bedrooms) {
         query.bedrooms = Number(filters.bedrooms);
