@@ -15,6 +15,11 @@ import { decodeToken } from '@/helper/helper'
 import { getOwnersProperties } from '@/redux/propertySlice'
 import {motion} from "framer-motion"
 
+import { logoutUser } from "../../redux/userSlice";
+import { useRouter } from "next/navigation";
+
+
+
 const properties=[
     {
       id:1,
@@ -89,7 +94,11 @@ function page() {
     const [localUser,setLocalUser]=useState({username:null,email:null,contact:null,role:null})
     const [selectedLocation, setSelectedLocation] = useState(null);
     const ownerProp= useSelector((state)=>state.propertyData.ownerProperties)
+    
     const dispatch= useDispatch()
+    const router = useRouter();
+
+
     const [markers, setMarkers] = useState([
       { latitude:30.7848005, longitude:76.923568}, // Example marker 1
       { latitude: 51.515, longitude: -0.1 },  // Example marker 2
@@ -127,6 +136,12 @@ function page() {
     },[ownerProp])
    
     
+    const handleLogout = () => {
+          console.log("Logout clicked");
+
+    dispatch(logoutUser());
+    router.push("/login");
+    };
 
 
   return (
@@ -135,14 +150,14 @@ function page() {
 
         {/* owner profile section*/}
         <div className=' md:h-[40vh] flex z-2 justify-center items-center relative ' style={{backgroundImage:`url(${backgroundPattern})` , backgroundSize: 'cover', backgroundPosition: 'center' }}>
-        <Image src={backgroundPattern} alt="hii" className="opacity-20 z-1 absolute top-0 left-0 w-full h-full object-cover"></Image>
+        <Image src={backgroundPattern} alt="hii" className="opacity-20 z-1 pointer-events-none absolute top-0 left-0 w-full h-full object-cover"></Image>
 
             <div className='text-center'>
                 <Image src={defaultUser} alt="default user" className='rounded-full ' height={150} />
                 <h1 className='md:text-2xl'>{localUser.username?localUser.username:"user"}</h1>
                 <div className=' py-1 px-3 rounded-lg'>
                     <button className=' hover:text-blue-400 cursor-pointer '>Edit</button> &nbsp; &nbsp; 
-                    <button className='hover:text-blue-400 cursor-pointer'>Logout</button>
+                    <button className='hover:text-blue-400 cursor-pointer text-red-400' onClick={handleLogout} >Logout</button>
                 </div>
 
             </div>

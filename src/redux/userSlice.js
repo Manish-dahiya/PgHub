@@ -63,7 +63,17 @@ export const sendEmail= createAsyncThunk(
 const userSlice= createSlice({
     initialState,
     name:"userSlice",
-    reducers:{},
+    reducers: {
+    logoutUser: (state) => {
+        state.user.data = null;
+        state.user.status = "idle";
+        state.user.error = null;
+
+        if (typeof window !== "undefined") {
+            localStorage.removeItem("user");
+        }
+    }
+},
     extraReducers:(builder)=>{
         builder
         .addCase(loginUser.pending,(state,action)=>{
@@ -129,5 +139,6 @@ const userSlice= createSlice({
     }
 })
 
+export const { logoutUser } = userSlice.actions;
 
 export default userSlice.reducer

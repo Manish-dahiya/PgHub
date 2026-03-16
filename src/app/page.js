@@ -28,42 +28,42 @@ import {motion} from "framer-motion"
 const properties=[
   {
     id:1,
-    image:[demoProperty],
+    images:[{url:"https://res.cloudinary.com/dsilckk9k/image/upload/v1732169507/properties/vaqndvcm44wmurcjyqkz.jpg"}],
     name:"luxiry palace pg's",
     desc:"this is a nice pg",
     price:'$8744'
   },
   {
     id:1,
-    image:[demoProperty],
+    images:[{url:"https://res.cloudinary.com/dsilckk9k/image/upload/v1732169507/properties/vaqndvcm44wmurcjyqkz.jpg"}],
     name:"luxiry palace pg's",
     desc:"this is a nice pg",
     price:'$8744'
   },
   {
     id:1,
-    image:[demoProperty],
+    images:[{url:"https://res.cloudinary.com/dsilckk9k/image/upload/v1732169507/properties/vaqndvcm44wmurcjyqkz.jpg"}],
     name:"luxiry palace pg's",
     desc:"this is a nice pg",
     price:'$8744'
   },
   {
     id:1,
-    image:[demoProperty],
+    images:[{url:"https://res.cloudinary.com/dsilckk9k/image/upload/v1732169507/properties/vaqndvcm44wmurcjyqkz.jpg"}],
     name:"luxiry palace pg's",
     desc:"this is a nice pg",
     price:'$8744'
   },
   {
     id:1,
-    image:[demoProperty],
+    images:[{url:"https://res.cloudinary.com/dsilckk9k/image/upload/v1732169507/properties/vaqndvcm44wmurcjyqkz.jpg"}],
     name:"luxiry palace pg's",
     desc:"this is a nice pg",
     price:'$8744'
   },
   {
     id:1,
-    image:[demoProperty],
+    images:[{url:"https://res.cloudinary.com/dsilckk9k/image/upload/v1732169507/properties/vaqndvcm44wmurcjyqkz.jpg"}],
     name:"luxiry palace pg's",
     desc:"this is a nice pg",
     price:'$8744'
@@ -257,7 +257,7 @@ export default function Home() {
               {
                 properties?.map((item,index)=>(
                   <SwiperSlide key={index} >
-                    <PropertyCard name={item.name} coverImg={item.image[0]} desc={item.desc} price={item.price}/>
+                    <PropertyCard item={item} name={item.name} coverImg={item.images[0]} desc={item.desc} price={item.price}/>
                   </SwiperSlide>
                 ))
               }
