@@ -87,7 +87,7 @@ const properties=[
 
 
 
-function page() {
+function Page() {
     const theme= useSelector((state)=>state.getTheme.theme)
     const [active,setActive]=useState(2) //default properties set
     const userFromStore= useSelector((state)=>state.userData.user.data)
@@ -271,4 +271,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

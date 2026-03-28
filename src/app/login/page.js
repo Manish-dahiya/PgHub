@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import aboutImage from "../../../public/aboutImage.png"
@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser, registerUser } from '@/redux/userSlice';
 import { redirect } from 'next/navigation';
-function page() {
+function Page() {
     const [isloggin,setIsLoggin]=useState(false);
     const errorMessage= useSelector((state)=>state.userData.user.error)
     const status= useSelector((state)=>state.userData.user.status)
@@ -129,4 +129,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

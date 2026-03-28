@@ -57,7 +57,7 @@ import Footer from '@/components/Footer';
 
 
 
-function page() {
+function Page() {
     const theme= useSelector((state)=>state.getTheme.theme)
 
 
@@ -127,7 +127,7 @@ function page() {
                     <div className='border border-[#575757] rounded-lg md:p-3'>
                         <span>
                             <Image src={trustIcon} alt="trustIcon" />
-                            <h1>commtment</h1>
+                            <h1>commitment</h1>
                         </span>
                         <p>We are dedicated to providing you with the highest level of sevice ,professionalism and support</p>
                     </div>
@@ -182,5 +182,5 @@ function page() {
   )
 }
 
-export default page
+export default Page
  

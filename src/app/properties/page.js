@@ -23,7 +23,7 @@ import Image from 'next/image'
 import clientIcon from "../../../public/clientIcon.png"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-function page() {
+function Page() {
     const init={
         propertyName:"",
         furnishedType:"",
@@ -220,4 +220,4 @@ function page() {
     )
 }
 
-export default page
+export default Page
