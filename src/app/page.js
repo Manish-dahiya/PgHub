@@ -29,42 +29,42 @@ const properties=[
   {
     id:1,
     images:[{url:"https://res.cloudinary.com/dsilckk9k/image/upload/v1732169507/properties/vaqndvcm44wmurcjyqkz.jpg"}],
-    name:"luxiry palace pg's",
+    name:"luxiry palace PGs",
     desc:"this is a nice pg",
     price:'$8744'
   },
   {
     id:1,
     images:[{url:"https://res.cloudinary.com/dsilckk9k/image/upload/v1732169507/properties/vaqndvcm44wmurcjyqkz.jpg"}],
-    name:"luxiry palace pg's",
+    name:"luxiry palace PGs",
     desc:"this is a nice pg",
     price:'$8744'
   },
   {
     id:1,
     images:[{url:"https://res.cloudinary.com/dsilckk9k/image/upload/v1732169507/properties/vaqndvcm44wmurcjyqkz.jpg"}],
-    name:"luxiry palace pg's",
+    name:"luxiry palace PGs",
     desc:"this is a nice pg",
     price:'$8744'
   },
   {
     id:1,
     images:[{url:"https://res.cloudinary.com/dsilckk9k/image/upload/v1732169507/properties/vaqndvcm44wmurcjyqkz.jpg"}],
-    name:"luxiry palace pg's",
+    name:"luxiry palace PGs",
     desc:"this is a nice pg",
     price:'$8744'
   },
   {
     id:1,
     images:[{url:"https://res.cloudinary.com/dsilckk9k/image/upload/v1732169507/properties/vaqndvcm44wmurcjyqkz.jpg"}],
-    name:"luxiry palace pg's",
+    name:"luxiry palace PGs",
     desc:"this is a nice pg",
     price:'$8744'
   },
   {
     id:1,
     images:[{url:"https://res.cloudinary.com/dsilckk9k/image/upload/v1732169507/properties/vaqndvcm44wmurcjyqkz.jpg"}],
-    name:"luxiry palace pg's",
+    name:"luxiry palace PGs",
     desc:"this is a nice pg",
     price:'$8744'
   }
@@ -218,7 +218,7 @@ export default function Home() {
         }}
         >Featured Properties</motion.h1>
         <div className=" md:flex md:justify-between ">
-          <p className="text-gray-500">Explore our handpicked selection of featured properties.Each listings offeres a glimpse info exceptional pg's available throug PgHub.Click view details for more Info</p>
+          <p className="text-gray-500">Explore our handpicked selection of featured properties.Each listings offeres a glimpse info exceptional PGs available throug PgHub.Click view details for more Info</p>
           <button className={`${theme=="dark"?"darkTheme":"pbutton"} border  py-2 my-2 px-2 rounded-lg border-slate-500 hover:scale-105 transition-transform`}>view All properties</button>
         </div>
         <div className="flex flex-wrap gap-6 my-10">
@@ -286,7 +286,7 @@ export default function Home() {
             }}
             >
               <h1 className="font-bold text-3xl m-2">Our our Clients say</h1>
-              <p className="text-gray-500">Read the happy stories of our valued clients.Discover why they choose PgHub for finding the perfect pg's</p>
+              <p className="text-gray-500">Read the happy stories of our valued clients.Discover why they choose PgHub for finding the perfect PGs</p>
             </motion.div>
 
             <motion.div className="my-20"

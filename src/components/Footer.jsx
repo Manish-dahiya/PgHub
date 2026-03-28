@@ -26,7 +26,7 @@ function Footer({theme}) {
       </div>
       <div>
         <h1 className='text-slate-500 my-4'>Services</h1>
-        <p className='py-2'>Pg's</p>
+        <p className='py-2'>PGs</p>
         <p className='py-2'> Pg Ratings</p>
         <p className='py-2'> Pg listings</p>
       </div>
