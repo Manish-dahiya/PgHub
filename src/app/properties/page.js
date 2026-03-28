@@ -113,7 +113,7 @@ function Page() {
             <Navbar theme={theme} />
             <div className='md:px-20 p-7 mt-24'>
                 <h1 className='text-xl md:2xl'>Find you dream Pg here </h1>
-                <p className='text-[#787a7e]'>Welcome to PgHub where your dream pg awaits in every corner of our beautiful world.Explore our currated selection of pg's Each
+                <p className='text-[#787a7e]'>Welcome to PgHub where your dream pg awaits in every corner of our beautiful world.Explore our currated selection of PGs Each
                     offering a unique stay and chance to rediefine you journey.
                 </p>
             </div>
@@ -162,7 +162,7 @@ function Page() {
             {/* properties div*/}
             <div className='md:mx-20 mx-7 my-7'>
                 <div>
-                    <h1 className='text-xl md:text-2xl '>Here Are Your Dream Pg's</h1>
+                    <h1 className='text-xl md:text-2xl '>Here Are Your Dream PGs</h1>
                     <p className='text-[#787a7e]'>Hi,Here are our all listings </p>
                 </div>
                 {/* properties div */}
@@ -198,7 +198,7 @@ function Page() {
                                 </SwiperSlide>
                             ))
                         }
-                    </Swiper>  :
+                    </Swiper>  
 
                     
                 </div>
