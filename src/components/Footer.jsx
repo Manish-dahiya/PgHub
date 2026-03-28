@@ -11,7 +11,7 @@ function Footer({theme}) {
             <h1 className='my-4 text-slate-500'>Home</h1>
             <p className='py-2'>Hero section</p>
             <p className='py-2'>Featured Properties</p>
-            <p className='py-2'>FAQ's</p>
+            <p className='py-2'>FAQs</p>
       </div>
       <div>
         <h1 className='text-slate-500 my-4'>About Us</h1>
