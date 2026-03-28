@@ -1,5 +1,5 @@
 "use client"
-import LeafletMap from '@/components/LeafletMap'
+// import LeafletMap from '@/components/LeafletMap'
 import Navbar from '@/components/Navbar'
 import React, { useState, useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -23,6 +23,13 @@ import Image from 'next/image'
 import clientIcon from "../../../public/clientIcon.png"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+
+import dynamic from 'next/dynamic'
+const LeafletMap = dynamic(() => import('@/components/LeafletMap'), {
+  ssr: false,
+})
+
+
 function Page() {
     const init={
         propertyName:"",

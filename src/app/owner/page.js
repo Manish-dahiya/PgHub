@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import defaultUser from "../../../public/defaultUser.png"
 import demoProperty from "../../../public/demoProperty.png"
 import PropertyCard from '@/components/PropertyCard'
-import LeafletMap from '@/components/LeafletMap'
+// import LeafletMap from '@/components/LeafletMap'
 import AddPropertyForm from '@/components/AddPropertyForm'
 import Footer from '@/components/Footer'
 import backgroundPattern from "../../../public/backgroundPattern.png"
@@ -18,6 +18,10 @@ import {motion} from "framer-motion"
 import { logoutUser } from "../../redux/userSlice";
 import { useRouter } from "next/navigation";
 
+import dynamic from 'next/dynamic'
+const LeafletMap = dynamic(() => import('@/components/LeafletMap'), {
+  ssr: false,
+})
 
 
 const properties=[
